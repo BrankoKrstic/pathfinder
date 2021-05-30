@@ -16,6 +16,10 @@
 }
 
 .Node-visited {
+	background-color: blue;
+}
+
+/* .Node-visited {
 	animation-name: visitedAnimation;
 	animation-duration: 1.5s;
 	animation-timing-function: ease-out;
@@ -46,7 +50,7 @@
 		transform: scale(1);
 		background-color: rgba(0, 190, 218, 0.75);
 	}
-}
+} */
 
 .Node-wall {
 	background-color: rgb(12, 53, 71);

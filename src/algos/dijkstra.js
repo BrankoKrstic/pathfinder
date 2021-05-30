@@ -77,6 +77,7 @@ export class WeightedGraph {
 			previous = {};
 		let q = new PriorityQueue();
 		let path = [];
+		let visitedNodes = [];
 		for (let vertex in this.adjacencyList) {
 			distances[vertex] = Infinity;
 			if (vertex === vStart) {
@@ -87,6 +88,7 @@ export class WeightedGraph {
 		}
 		while (q.values.length > 0) {
 			let { val, priority } = q.dequeue();
+			visitedNodes.push(val);
 			if (val === vEnd) {
 				while (previous[val]) {
 					path.push(val);
@@ -105,6 +107,6 @@ export class WeightedGraph {
 				});
 			}
 		}
-		return path.concat(vStart).reverse();
+		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
 	}
 }
