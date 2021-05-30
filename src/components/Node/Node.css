@@ -1,0 +1,8 @@
+.Node {
+	width: 2%;
+	height: 5%;
+	border: 1px solid grey;
+	display: inline-block;
+	box-sizing: border-box;
+	margin: 0;
+}

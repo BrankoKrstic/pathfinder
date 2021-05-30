@@ -24,4 +24,7 @@
 	width: 80%;
 	height: 80%;
 	background-color: white;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }

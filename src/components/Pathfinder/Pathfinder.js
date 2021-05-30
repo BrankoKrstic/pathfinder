@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { WeightedGraph } from "../../algos/dijkstra";
+import Node from "../Node/Node";
 import "./Pathfinder.css";
 
 const NUM_ROWS = 20;
@@ -21,11 +22,16 @@ export default function Pathfinder() {
 		setGridState({ graph: newGraph });
 		console.log(gridState.graph);
 	}, []);
+	const nodes =
+		gridState.graph &&
+		Object.entries(gridState.graph.adjacencyList).map((el, i) => (
+			<Node key={i} location={i} />
+		));
 	return (
 		<div className="Pathfinder">
 			<header className="Pathfinder-nav">Nav goes here</header>
 			<main className="Pathfinder-body">
-				<div className="Pathfinder-grid"></div>
+				<div className="Pathfinder-grid">{nodes}</div>
 			</main>
 		</div>
 	);
