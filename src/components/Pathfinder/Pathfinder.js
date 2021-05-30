@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { WeightedGraph } from "../../algos/dijkstra";
 import Node from "../Node/Node";
 import "./Pathfinder.css";
@@ -9,11 +9,11 @@ const NUM_COLS = 50;
 export default function Pathfinder() {
 	const [gridState, setGridState] = useState({
 		graph: null,
-		startNode: "12",
-		endNode: "199",
+		startNode: "170",
+		endNode: "190",
+		visitedNodes: [],
+		shortestPath: [],
 	});
-	let visitedNodes = useRef([]);
-	let shortestPath = useRef([]);
 	useEffect(() => {
 		const newGraph = new WeightedGraph();
 		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
@@ -33,8 +33,25 @@ export default function Pathfinder() {
 			gridState.startNode,
 			gridState.endNode
 		);
-		console.log(visitedNodes);
-		setGridState({ ...gridState, shortestPath, visitedNodes });
+		let visitedArr = [];
+		let shortestPathArr = [];
+		for (let i = 0; i < visitedNodes.length + shortestPath.length; i++) {
+			if (i < visitedNodes.length) {
+				setTimeout(() => {
+					visitedArr.push(visitedNodes[i]);
+					setGridState({ ...gridState, visitedNodes: visitedArr });
+				}, i * 25);
+			} else {
+				setTimeout(() => {
+					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
+					setGridState({
+						...gridState,
+						visitedNodes: visitedArr,
+						shortestPath: shortestPathArr,
+					});
+				}, i * 25);
+			}
+		}
 	};
 	const nodes =
 		gridState.graph &&
@@ -44,8 +61,8 @@ export default function Pathfinder() {
 				location={i}
 				start={String(i) === gridState.startNode}
 				end={String(i) === gridState.endNode}
-				visited={visitedNodes.current.includes(String(i))}
-				final={shortestPath.current.includes(String(i))}
+				visited={gridState.visitedNodes.includes(String(i))}
+				final={gridState.shortestPath.includes(String(i))}
 			/>
 		));
 	return (
