@@ -71,7 +71,7 @@ export default function Pathfinder() {
 		));
 	return (
 		<div className="Pathfinder">
-			<Navbar vizualize={visualize}></Navbar>
+			<Navbar visualize={visualize}></Navbar>
 			<main className="Pathfinder-body">
 				<div className="Pathfinder-grid">{nodes}</div>
 			</main>

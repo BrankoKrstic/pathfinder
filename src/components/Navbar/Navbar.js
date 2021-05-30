@@ -5,6 +5,9 @@ export default function Navbar(props) {
 	return (
 		<nav className="Navbar">
 			<div className="Navbar-logo">Pathfinder</div>
+			<button className="Navbar-button" onClick={visualize}>
+				Visualize!
+			</button>
 		</nav>
 	);
 }
