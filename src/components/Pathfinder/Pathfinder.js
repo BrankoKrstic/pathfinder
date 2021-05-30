@@ -10,16 +10,16 @@ export default function Pathfinder() {
 	useEffect(() => {
 		const newGraph = new WeightedGraph();
 		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
-			newGraph.addVertex(i);
+			newGraph.addVertex(String(i));
 			if (i % NUM_COLS !== 0) {
-				newGraph.addEdge(i, i - 1, 1);
+				newGraph.addEdge(String(i), String(i - 1), 1);
 			}
 			if (i > NUM_COLS) {
-				newGraph.addEdge(i, i - NUM_COLS, 1);
+				newGraph.addEdge(String(i), String(i - NUM_COLS), 1);
 			}
 		}
 		setGridState({ graph: newGraph });
-		console.log(gridState);
+		console.log(gridState.graph);
 	}, []);
 	return (
 		<div className="Pathfinder">
