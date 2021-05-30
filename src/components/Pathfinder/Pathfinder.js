@@ -7,7 +7,13 @@ const NUM_ROWS = 20;
 const NUM_COLS = 50;
 
 export default function Pathfinder() {
-	const [gridState, setGridState] = useState({ graph: null });
+	const [gridState, setGridState] = useState({
+		graph: null,
+		startNode: 460,
+		endNode: 490,
+		visitedNodes: [],
+		shortestPath: [],
+	});
 	useEffect(() => {
 		const newGraph = new WeightedGraph();
 		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
@@ -19,13 +25,19 @@ export default function Pathfinder() {
 				newGraph.addEdge(String(i), String(i - NUM_COLS), 1);
 			}
 		}
-		setGridState({ graph: newGraph });
-		console.log(gridState.graph);
+		setGridState({ ...gridState, graph: newGraph });
 	}, []);
 	const nodes =
 		gridState.graph &&
 		Object.entries(gridState.graph.adjacencyList).map((el, i) => (
-			<Node key={i} location={i} />
+			<Node
+				key={i}
+				location={i}
+				start={i === gridState.startNode}
+				end={i === gridState.endNode}
+				visited={gridState.visitedNodes.includes(String(i))}
+				final={gridState.shortestPath.includes(String(i))}
+			/>
 		));
 	return (
 		<div className="Pathfinder">
