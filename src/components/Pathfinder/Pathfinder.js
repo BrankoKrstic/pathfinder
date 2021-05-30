@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { WeightedGraph } from "../../algos/dijkstra";
 import Node from "../Node/Node";
 import "./Pathfinder.css";
@@ -71,7 +71,7 @@ export default function Pathfinder() {
 		));
 	return (
 		<div className="Pathfinder">
-			<Navbar visualize={visualize}></Navbar>
+			<Navbar visualize={visualize} reset={reset}></Navbar>
 			<main className="Pathfinder-body">
 				<div className="Pathfinder-grid">{nodes}</div>
 			</main>

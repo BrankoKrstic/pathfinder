@@ -15,10 +15,6 @@
 	background-color: green;
 }
 
-/* .Node-visited {
-	background-color: blue;
-} */
-
 .Node-visited {
 	animation-name: visitedAnimation;
 	animation-duration: 1.5s;
