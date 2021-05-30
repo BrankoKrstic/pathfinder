@@ -29,6 +29,7 @@ export default function Pathfinder() {
 		console.log(gridState.graph);
 	}, []);
 	const visualize = () => {
+		reset();
 		let { visitedNodes, shortestPath } = gridState.graph.dijkstra(
 			gridState.startNode,
 			gridState.endNode
@@ -52,6 +53,9 @@ export default function Pathfinder() {
 				}, i * 25);
 			}
 		}
+	};
+	const reset = () => {
+		setGridState({ ...gridState, shortestPath: [], visitedNodes: [] });
 	};
 	const nodes =
 		gridState.graph &&
