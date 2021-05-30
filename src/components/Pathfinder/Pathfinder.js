@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import { WeightedGraph } from "../../algos/dijkstra";
 import Node from "../Node/Node";
 import "./Pathfinder.css";
-
+import Navbar from "../Navbar/Navbar";
 const NUM_ROWS = 20;
 const NUM_COLS = 50;
 
 export default function Pathfinder() {
 	const [gridState, setGridState] = useState({
 		graph: null,
-		startNode: "170",
-		endNode: "190",
+		startNode: "160",
+		endNode: "690",
 		visitedNodes: [],
 		shortestPath: [],
 	});
@@ -41,7 +41,7 @@ export default function Pathfinder() {
 				setTimeout(() => {
 					visitedArr.push(visitedNodes[i]);
 					setGridState({ ...gridState, visitedNodes: visitedArr });
-				}, i * 25);
+				}, i * 20);
 			} else {
 				setTimeout(() => {
 					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
@@ -50,7 +50,7 @@ export default function Pathfinder() {
 						visitedNodes: visitedArr,
 						shortestPath: shortestPathArr,
 					});
-				}, i * 25);
+				}, i * 20);
 			}
 		}
 	};
@@ -71,9 +71,7 @@ export default function Pathfinder() {
 		));
 	return (
 		<div className="Pathfinder">
-			<header className="Pathfinder-nav">
-				Nav goes here <button onClick={visualize}>Visualize</button>
-			</header>
+			<Navbar vizualize={visualize}></Navbar>
 			<main className="Pathfinder-body">
 				<div className="Pathfinder-grid">{nodes}</div>
 			</main>
