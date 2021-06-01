@@ -6,14 +6,7 @@
 	box-sizing: border-box;
 	margin: 0;
 	cursor: pointer;
-}
-
-.Node-end {
-	background-color: red;
-}
-
-.Node-start {
-	background-color: green;
+	text-align: center;
 }
 
 .Node-visited {
@@ -75,6 +68,14 @@
 		transform: scale(1);
 		background-color: rgb(94, 93, 93);
 	}
+}
+
+.Node-start {
+	background-color: green;
+}
+
+.Node-end {
+	background-color: red;
 }
 
 .Node-shortest-path {

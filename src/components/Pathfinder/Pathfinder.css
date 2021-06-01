@@ -16,8 +16,8 @@
 }
 
 .Pathfinder-grid {
-	width: 90%;
-	height: 80%;
+	width: 95%;
+	height: 85%;
 	background-color: white;
 	display: flex;
 	flex-direction: row;
