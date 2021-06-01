@@ -68,7 +68,12 @@ export default function Pathfinder() {
 		setGridState({ ...gridState, mousePressed: val });
 	};
 	const toggleWall = (node) => {
-		if (!gridState.mousePressed) return;
+		if (
+			!gridState.mousePressed ||
+			node === gridState.startNode ||
+			node === gridState.endNode
+		)
+			return;
 		let nodeIndex = gridState.wallNodes.indexOf(node);
 		let newArr = [...gridState.wallNodes];
 		if (nodeIndex >= 0) {
