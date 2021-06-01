@@ -123,6 +123,8 @@ export class WeightedGraph {
 						q.enqueue(edge.node, newDist);
 					}
 				});
+			} else {
+				break;
 			}
 		}
 		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };

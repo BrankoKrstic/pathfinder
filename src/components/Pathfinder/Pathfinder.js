@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { WeightedGraph } from "../../algos/dijkstra";
 import Node from "../Node/Node";
 import "./Pathfinder.css";
@@ -13,18 +13,8 @@ export default function Pathfinder() {
 		endNode: "690",
 		visitedNodes: [],
 		shortestPath: [],
-		wallNodes: [
-			"25",
-			"75",
-			"125",
-			"175",
-			"225",
-			"275",
-			"325",
-			"375",
-			"425",
-			"475",
-		],
+		wallNodes: [],
+		mousePressed: false,
 	});
 	useEffect(() => {
 		const newGraph = new WeightedGraph();
@@ -38,7 +28,6 @@ export default function Pathfinder() {
 			}
 		}
 		setGridState({ ...gridState, graph: newGraph });
-		console.log(gridState.graph);
 	}, []);
 	const visualize = () => {
 		reset();
@@ -68,26 +57,51 @@ export default function Pathfinder() {
 		}
 	};
 	const reset = () => {
-		setGridState({ ...gridState, shortestPath: [], visitedNodes: [] });
+		setGridState({
+			...gridState,
+			shortestPath: [],
+			visitedNodes: [],
+			wallNodes: [],
+		});
+	};
+	const toggleMousePressed = (val) => {
+		setGridState({ ...gridState, mousePressed: val });
+	};
+	const toggleWall = (node) => {
+		if (!gridState.mousePressed) return;
+		let nodeIndex = gridState.wallNodes.indexOf(node);
+		let newArr = [...gridState.wallNodes];
+		if (nodeIndex >= 0) {
+			newArr.splice(nodeIndex, 1);
+		} else {
+			newArr.push(node);
+		}
+		setGridState({ ...gridState, wallNodes: newArr });
 	};
 	const nodes =
 		gridState.graph &&
 		Object.entries(gridState.graph.adjacencyList).map((el, i) => (
 			<Node
 				key={i}
-				location={i}
+				location={String(i)}
 				start={String(i) === gridState.startNode}
 				end={String(i) === gridState.endNode}
 				visited={gridState.visitedNodes.includes(String(i))}
 				final={gridState.shortestPath.includes(String(i))}
 				wall={gridState.wallNodes.includes(String(i))}
+				toggleWall={toggleWall}
 			/>
 		));
 	return (
-		<div className="Pathfinder">
+		<div className="Pathfinder" onMouseUp={() => toggleMousePressed(false)}>
 			<Navbar visualize={visualize} reset={reset}></Navbar>
 			<main className="Pathfinder-body">
-				<div className="Pathfinder-grid">{nodes}</div>
+				<div
+					className="Pathfinder-grid"
+					onMouseDown={() => toggleMousePressed(true)}
+				>
+					{nodes}
+				</div>
 			</main>
 		</div>
 	);
