@@ -13,6 +13,18 @@ export default function Pathfinder() {
 		endNode: "690",
 		visitedNodes: [],
 		shortestPath: [],
+		wallNodes: [
+			"25",
+			"75",
+			"125",
+			"175",
+			"225",
+			"275",
+			"325",
+			"375",
+			"425",
+			"475",
+		],
 	});
 	useEffect(() => {
 		const newGraph = new WeightedGraph();
@@ -32,7 +44,8 @@ export default function Pathfinder() {
 		reset();
 		let { visitedNodes, shortestPath } = gridState.graph.dijkstra(
 			gridState.startNode,
-			gridState.endNode
+			gridState.endNode,
+			gridState.wallNodes
 		);
 		let visitedArr = [];
 		let shortestPathArr = [];
@@ -67,6 +80,7 @@ export default function Pathfinder() {
 				end={String(i) === gridState.endNode}
 				visited={gridState.visitedNodes.includes(String(i))}
 				final={gridState.shortestPath.includes(String(i))}
+				wall={gridState.wallNodes.includes(String(i))}
 			/>
 		));
 	return (

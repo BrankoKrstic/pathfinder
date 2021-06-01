@@ -86,7 +86,7 @@ export class WeightedGraph {
 		this.adjacencyList[v1].push({ node: v2, weight });
 		this.adjacencyList[v2].push({ node: v1, weight });
 	}
-	dijkstra(vStart, vEnd) {
+	dijkstra(vStart, vEnd, wallNodes = []) {
 		const distances = {},
 			previous = {};
 		let q = new PriorityQueue();
@@ -114,7 +114,10 @@ export class WeightedGraph {
 				console.log(distances[val]);
 				this.adjacencyList[val].forEach((edge) => {
 					let newDist = priority + edge.weight;
-					if (newDist < distances[edge.node]) {
+					if (
+						newDist < distances[edge.node] &&
+						!wallNodes.includes(edge.node)
+					) {
 						distances[edge.node] = newDist;
 						previous[edge.node] = val;
 						q.enqueue(edge.node, newDist);
