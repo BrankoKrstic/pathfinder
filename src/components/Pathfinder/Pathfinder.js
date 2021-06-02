@@ -7,17 +7,18 @@ const NUM_ROWS = 20;
 const NUM_COLS = 50;
 
 export default function Pathfinder() {
-	const [gridState, setGridState] = useState({
-		graph: null,
-	});
-	const [nodeState, setNodeState] = useState({
+	const defaultNodeState = {
 		startNode: "110",
 		endNode: "390",
 		visitedNodes: [],
 		shortestPath: [],
 		wallNodes: [],
 		mousePressed: false,
+	};
+	const [gridState, setGridState] = useState({
+		graph: null,
 	});
+	const [nodeState, setNodeState] = useState(defaultNodeState);
 	useEffect(() => {
 		const newGraph = new WeightedGraph();
 		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
@@ -51,20 +52,15 @@ export default function Pathfinder() {
 					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
 					setNodeState({
 						...nodeState,
-						visitedNodes: visitedArr,
 						shortestPath: shortestPathArr,
+						visitedNodes: visitedArr,
 					});
 				}, i * 25);
 			}
 		}
 	};
 	const reset = () => {
-		setNodeState({
-			...nodeState,
-			shortestPath: [],
-			visitedNodes: [],
-			wallNodes: [],
-		});
+		setNodeState(defaultNodeState);
 	};
 	const removeWalls = () => {
 		setNodeState({ ...nodeState, wallNodes: [] });
@@ -104,7 +100,11 @@ export default function Pathfinder() {
 		));
 	return (
 		<div className="Pathfinder" onMouseUp={() => toggleMousePressed(false)}>
-			<Navbar visualize={visualize} reset={reset}></Navbar>
+			<Navbar
+				visualize={visualize}
+				removeWalls={removeWalls}
+				reset={reset}
+			></Navbar>
 			<main className="Pathfinder-body">
 				<div
 					className="Pathfinder-grid"

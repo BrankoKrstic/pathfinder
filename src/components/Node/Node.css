@@ -1,7 +1,7 @@
 .Node {
 	width: 2%;
 	height: 5%;
-	border-left: 1px solid grey;
+	border-right: 1px solid grey;
 	border-bottom: 1px solid grey;
 	display: inline-block;
 	box-sizing: border-box;
@@ -19,6 +19,7 @@
 	animation-iteration-count: 1;
 	animation-fill-mode: forwards;
 	animation-play-state: running;
+	border-color: rgba(54, 2, 122, 0.233);
 }
 
 @keyframes visitedAnimation {
@@ -35,17 +36,16 @@
 	75% {
 		transform: scale(1.2);
 		background-color: rgba(0, 217, 159, 0.75);
-		border-color: white;
 	}
 
 	100% {
 		transform: scale(1);
 		background-color: rgb(0, 189, 218);
-		border-color: white;
 	}
 }
 
 .Node-wall {
+	border: 1px solid rgb(146, 146, 146);
 	animation-name: wallAnimation;
 	animation-duration: 0.5s;
 	animation-timing-function: ease-out;
