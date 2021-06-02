@@ -3,14 +3,16 @@ import { WeightedGraph } from "../../algos/dijkstra";
 import Node from "../Node/Node";
 import "./Pathfinder.css";
 import Navbar from "../Navbar/Navbar";
-const NUM_ROWS = 40;
-const NUM_COLS = 100;
+const NUM_ROWS = 20;
+const NUM_COLS = 50;
 
 export default function Pathfinder() {
 	const [gridState, setGridState] = useState({
 		graph: null,
-		startNode: "160",
-		endNode: "690",
+	});
+	const [nodeState, setNodeState] = useState({
+		startNode: "110",
+		endNode: "390",
 		visitedNodes: [],
 		shortestPath: [],
 		wallNodes: [],
@@ -27,14 +29,14 @@ export default function Pathfinder() {
 				newGraph.addEdge(String(i), String(i - NUM_COLS), 1);
 			}
 		}
-		setGridState({ ...gridState, graph: newGraph });
+		setGridState({ graph: newGraph });
 	}, []);
 	const visualize = () => {
 		reset();
 		let { visitedNodes, shortestPath } = gridState.graph.dijkstra(
-			gridState.startNode,
-			gridState.endNode,
-			gridState.wallNodes
+			nodeState.startNode,
+			nodeState.endNode,
+			nodeState.wallNodes
 		);
 		let visitedArr = [];
 		let shortestPathArr = [];
@@ -42,46 +44,49 @@ export default function Pathfinder() {
 			if (i < visitedNodes.length) {
 				setTimeout(() => {
 					visitedArr.push(visitedNodes[i]);
-					setGridState({ ...gridState, visitedNodes: visitedArr });
-				}, i * 10);
+					setNodeState({ ...nodeState, visitedNodes: visitedArr });
+				}, i * 25);
 			} else {
 				setTimeout(() => {
 					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
-					setGridState({
-						...gridState,
+					setNodeState({
+						...nodeState,
 						visitedNodes: visitedArr,
 						shortestPath: shortestPathArr,
 					});
-				}, i * 10);
+				}, i * 25);
 			}
 		}
 	};
 	const reset = () => {
-		setGridState({
-			...gridState,
+		setNodeState({
+			...nodeState,
 			shortestPath: [],
 			visitedNodes: [],
 			wallNodes: [],
 		});
 	};
+	const removeWalls = () => {
+		setNodeState({ ...nodeState, wallNodes: [] });
+	};
 	const toggleMousePressed = (val) => {
-		setGridState({ ...gridState, mousePressed: val });
+		setNodeState({ ...nodeState, mousePressed: val });
 	};
 	const toggleWall = (node) => {
 		if (
-			!gridState.mousePressed ||
-			node === gridState.startNode ||
-			node === gridState.endNode
+			!nodeState.mousePressed ||
+			node === nodeState.startNode ||
+			node === nodeState.endNode
 		)
 			return;
-		let nodeIndex = gridState.wallNodes.indexOf(node);
-		let newArr = [...gridState.wallNodes];
+		let nodeIndex = nodeState.wallNodes.indexOf(node);
+		let newArr = [...nodeState.wallNodes];
 		if (nodeIndex >= 0) {
 			newArr.splice(nodeIndex, 1);
 		} else {
 			newArr.push(node);
 		}
-		setGridState({ ...gridState, wallNodes: newArr });
+		setNodeState({ ...nodeState, wallNodes: newArr });
 	};
 	const nodes =
 		gridState.graph &&
@@ -89,11 +94,11 @@ export default function Pathfinder() {
 			<Node
 				key={i}
 				location={String(i)}
-				start={String(i) === gridState.startNode}
-				end={String(i) === gridState.endNode}
-				visited={gridState.visitedNodes.includes(String(i))}
-				final={gridState.shortestPath.includes(String(i))}
-				wall={gridState.wallNodes.includes(String(i))}
+				start={String(i) === nodeState.startNode}
+				end={String(i) === nodeState.endNode}
+				visited={nodeState.visitedNodes.includes(String(i))}
+				final={nodeState.shortestPath.includes(String(i))}
+				wall={nodeState.wallNodes.includes(String(i))}
 				toggleWall={toggleWall}
 			/>
 		));

@@ -1,6 +1,7 @@
+import { memo } from "react";
 import "./Node.css";
 
-export default function Node(props) {
+function Node(props) {
 	const { start, end, visited, wall, final, toggleWall, location } = props;
 	const classes = `Node ${wall && "Node-wall"} ${visited && "Node-visited"} ${
 		start && "Node-start"
@@ -12,3 +13,5 @@ export default function Node(props) {
 		></div>
 	);
 }
+
+export default memo(Node);
