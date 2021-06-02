@@ -51,11 +51,84 @@
 	border: none;
 	color: white;
 	height: 100%;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	font-weight: bold;
 	letter-spacing: 1px;
 }
 
 .Navbar-button:hover {
-	background-color: rgb(0, 190, 218);
+	background-color: #1abc9c;
+}
+
+.Navbar-label {
+	height: 100%;
+	font-size: 1rem;
+	line-height: 4rem;
+	font-weight: bold;
+}
+
+.Navbar-dropdown {
+	font-size: 1.2rem;
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 10px; /* demo only */
+}
+
+.Navbar-dropdown select {
+	background-color: #1abc9c;
+	color: #fff;
+	font-size: inherit;
+	padding: 0.5em;
+	width: 10rem;
+	padding-right: 2.5em;
+	border: 0;
+	margin: 0;
+	border-radius: 3px;
+	text-indent: 0.01px;
+	text-overflow: "";
+	-webkit-appearance: none; /* hide default arrow in chrome OSX */
+}
+
+.Navbar-dropdown::before,
+.Navbar-dropdown::after {
+	content: "";
+	position: absolute;
+	pointer-events: none;
+}
+
+.Navbar-dropdown::after {
+	/*  Custom dropdown arrow */
+	content: "\25BC";
+	height: 1em;
+	font-size: 0.625em;
+	line-height: 1;
+	right: 1.2em;
+	top: 50%;
+	margin-top: -0.5em;
+}
+
+.Navbar-dropdown::before {
+	/*  Custom dropdown arrow cover */
+	width: 2em;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	border-radius: 0 3px 3px 0;
+}
+
+.Navbar-dropdown select[disabled] {
+	color: rgba(0, 0, 0, 0.3);
+}
+
+.Navbar-dropdown select[disabled]::after {
+	color: rgba(0, 0, 0, 0.1);
+}
+
+.Navbar-dropdown::before {
+	background-color: rgba(0, 0, 0, 0.15);
+}
+
+.Navbar-dropdown::after {
+	color: rgba(0, 0, 0, 0.4);
 }

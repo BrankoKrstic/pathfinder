@@ -34,7 +34,7 @@ export default function Pathfinder() {
 		setGridState({ ...gridState, graph: newGraph });
 	}, []);
 	const visualize = () => {
-		reset();
+		resetSearch();
 		let { visitedNodes, shortestPath } = gridState.graph.dijkstra(
 			nodeState.startNode,
 			nodeState.endNode,
@@ -64,6 +64,9 @@ export default function Pathfinder() {
 			}
 		}
 	};
+	const resetSearch = () => {
+		setNodeState({ ...nodeState, visitedNodes: [], shortestPath: [] });
+	};
 	const reset = () => {
 		setNodeState(defaultNodeState);
 	};
@@ -90,6 +93,7 @@ export default function Pathfinder() {
 		setNodeState({ ...nodeState, wallNodes: newArr });
 	};
 	const changeSpeed = (val) => {
+		reset();
 		setGridState({ ...gridState, searchSpeed: val });
 	};
 	const nodes =
@@ -109,9 +113,12 @@ export default function Pathfinder() {
 	return (
 		<div className="Pathfinder" onMouseUp={() => toggleMousePressed(false)}>
 			<Navbar
+				{...gridState}
 				visualize={visualize}
 				removeWalls={removeWalls}
 				reset={reset}
+				resetSearch={resetSearch}
+				changeSpeed={changeSpeed}
 			></Navbar>
 			<main className="Pathfinder-body">
 				<div
