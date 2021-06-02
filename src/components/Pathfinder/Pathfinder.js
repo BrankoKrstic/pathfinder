@@ -46,7 +46,11 @@ export default function Pathfinder() {
 			if (i < visitedNodes.length) {
 				setTimeout(() => {
 					visitedArr.push(visitedNodes[i]);
-					setNodeState({ ...nodeState, visitedNodes: visitedArr });
+					setNodeState({
+						...nodeState,
+						visitedNodes: visitedArr,
+						shortestPath: shortestPathArr,
+					});
 				}, i * gridState.searchSpeed);
 			} else {
 				setTimeout(() => {
@@ -84,6 +88,9 @@ export default function Pathfinder() {
 			newArr.push(node);
 		}
 		setNodeState({ ...nodeState, wallNodes: newArr });
+	};
+	const changeSpeed = (val) => {
+		setGridState({ ...gridState, searchSpeed: val });
 	};
 	const nodes =
 		gridState.graph &&
