@@ -67,6 +67,7 @@ export default function Pathfinder() {
 		}
 	};
 	const clickDown = (val) => {
+		if (nodeState.visitedNodes.length > 0) return;
 		if (val === nodeState.startNode) {
 			setNodeState({
 				...nodeState,
@@ -75,7 +76,7 @@ export default function Pathfinder() {
 		} else if (val === nodeState.endNode) {
 			setNodeState({ ...nodeState, movingEndNode: true });
 		} else {
-			setNodeState({ ...nodeState, mouseIsPressed: true });
+			setNodeState({ ...nodeState, mousePressed: true });
 		}
 	};
 	const clickUp = () => {
