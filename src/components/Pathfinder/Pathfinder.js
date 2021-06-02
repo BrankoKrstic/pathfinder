@@ -17,6 +17,7 @@ export default function Pathfinder() {
 	};
 	const [gridState, setGridState] = useState({
 		graph: null,
+		searchSpeed: 25,
 	});
 	const [nodeState, setNodeState] = useState(defaultNodeState);
 	useEffect(() => {
@@ -30,7 +31,7 @@ export default function Pathfinder() {
 				newGraph.addEdge(String(i), String(i - NUM_COLS), 1);
 			}
 		}
-		setGridState({ graph: newGraph });
+		setGridState({ ...gridState, graph: newGraph });
 	}, []);
 	const visualize = () => {
 		reset();
@@ -46,7 +47,7 @@ export default function Pathfinder() {
 				setTimeout(() => {
 					visitedArr.push(visitedNodes[i]);
 					setNodeState({ ...nodeState, visitedNodes: visitedArr });
-				}, i * 25);
+				}, i * gridState.searchSpeed);
 			} else {
 				setTimeout(() => {
 					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
@@ -55,7 +56,7 @@ export default function Pathfinder() {
 						shortestPath: shortestPathArr,
 						visitedNodes: visitedArr,
 					});
-				}, i * 25);
+				}, i * gridState.searchSpeed);
 			}
 		}
 	};
