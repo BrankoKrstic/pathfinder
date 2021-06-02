@@ -3,8 +3,8 @@ import { WeightedGraph } from "../../algos/dijkstra";
 import Node from "../Node/Node";
 import "./Pathfinder.css";
 import Navbar from "../Navbar/Navbar";
-const NUM_ROWS = 20;
-const NUM_COLS = 50;
+const NUM_ROWS = 40;
+const NUM_COLS = 100;
 
 export default function Pathfinder() {
 	const [gridState, setGridState] = useState({
@@ -43,7 +43,7 @@ export default function Pathfinder() {
 				setTimeout(() => {
 					visitedArr.push(visitedNodes[i]);
 					setGridState({ ...gridState, visitedNodes: visitedArr });
-				}, i * 20);
+				}, i * 10);
 			} else {
 				setTimeout(() => {
 					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
@@ -52,7 +52,7 @@ export default function Pathfinder() {
 						visitedNodes: visitedArr,
 						shortestPath: shortestPathArr,
 					});
-				}, i * 20);
+				}, i * 10);
 			}
 		}
 	};
