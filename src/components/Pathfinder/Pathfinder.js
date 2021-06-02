@@ -8,11 +8,13 @@ const NUM_COLS = 50;
 
 export default function Pathfinder() {
 	const defaultNodeState = {
-		startNode: "110",
-		endNode: "390",
+		startNode: "410",
+		endNode: "490",
 		visitedNodes: [],
 		shortestPath: [],
 		wallNodes: [],
+		movingStartNode: false,
+		movingEndNode: false,
 		mousePressed: false,
 	};
 	const [gridState, setGridState] = useState({
@@ -64,6 +66,26 @@ export default function Pathfinder() {
 			}
 		}
 	};
+	const clickDown = (val) => {
+		if (val === nodeState.startNode) {
+			setNodeState({
+				...nodeState,
+				movingStartNode: true,
+			});
+		} else if (val === nodeState.endNode) {
+			setNodeState({ ...nodeState, movingEndNode: true });
+		} else {
+			setNodeState({ ...nodeState, mouseIsPressed: true });
+		}
+	};
+	const clickUp = () => {
+		setNodeState({
+			...nodeState,
+			movingStartNode: false,
+			movingEndNode: false,
+			mousePressed: false,
+		});
+	};
 	const resetSearch = () => {
 		setNodeState({ ...nodeState, visitedNodes: [], shortestPath: [] });
 	};
@@ -73,10 +95,11 @@ export default function Pathfinder() {
 	const removeWalls = () => {
 		setNodeState({ ...nodeState, wallNodes: [] });
 	};
-	const toggleMousePressed = (val) => {
-		setNodeState({ ...nodeState, mousePressed: val });
-	};
 	const toggleWall = (node) => {
+		if (nodeState.movingStartNode)
+			return setNodeState({ ...nodeState, startNode: node });
+		if (nodeState.movingEndNode)
+			return setNodeState({ ...nodeState, endNode: node });
 		if (
 			!nodeState.mousePressed ||
 			node === nodeState.startNode ||
@@ -108,10 +131,12 @@ export default function Pathfinder() {
 				final={nodeState.shortestPath.includes(String(i))}
 				wall={nodeState.wallNodes.includes(String(i))}
 				toggleWall={toggleWall}
+				clickDown={clickDown}
+				clickUp={clickUp}
 			/>
 		));
 	return (
-		<div className="Pathfinder" onMouseUp={() => toggleMousePressed(false)}>
+		<div className="Pathfinder">
 			<Navbar
 				{...gridState}
 				visualize={visualize}
@@ -121,12 +146,7 @@ export default function Pathfinder() {
 				changeSpeed={changeSpeed}
 			></Navbar>
 			<main className="Pathfinder-body">
-				<div
-					className="Pathfinder-grid"
-					onMouseDown={() => toggleMousePressed(true)}
-				>
-					{nodes}
-				</div>
+				<div className="Pathfinder-grid">{nodes}</div>
 			</main>
 		</div>
 	);
