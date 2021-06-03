@@ -20,6 +20,7 @@ export default function Pathfinder() {
 	const [gridState, setGridState] = useState({
 		graph: null,
 		searchSpeed: 25,
+		searchAlgo: "dijkstra",
 	});
 	const [nodeState, setNodeState] = useState(defaultNodeState);
 	useEffect(() => {
@@ -37,17 +38,7 @@ export default function Pathfinder() {
 	}, []);
 	const visualize = () => {
 		resetSearch();
-		// let { visitedNodes, shortestPath } = gridState.graph.dijkstra(
-		// 	nodeState.startNode,
-		// 	nodeState.endNode,
-		// 	nodeState.wallNodes
-		// );
-		let { visitedNodes, shortestPath } = gridState.graph.aStar(
-			nodeState.startNode,
-			nodeState.endNode,
-			NUM_COLS,
-			nodeState.wallNodes
-		);
+		let { visitedNodes, shortestPath } = search();
 		let visitedArr = [];
 		let shortestPathArr = [];
 		for (let i = 0; i < visitedNodes.length + shortestPath.length; i++) {
@@ -102,6 +93,26 @@ export default function Pathfinder() {
 	const removeWalls = () => {
 		setNodeState({ ...nodeState, wallNodes: [] });
 	};
+	const search = () => {
+		if (gridState.searchAlgo === "dijkstra") {
+			return gridState.graph.dijkstra(
+				nodeState.startNode,
+				nodeState.endNode,
+				nodeState.wallNodes
+			);
+		} else if (gridState.searchAlgo === "aStar") {
+			return gridState.graph.aStar(
+				nodeState.startNode,
+				nodeState.endNode,
+				NUM_COLS,
+				nodeState.wallNodes
+			);
+		}
+	};
+	const changeAlgo = (val) => {
+		resetSearch();
+		setGridState({ ...gridState, searchAlgo: val });
+	};
 	const toggleWall = (node) => {
 		if (nodeState.movingStartNode)
 			return setNodeState({ ...nodeState, startNode: node });
@@ -123,7 +134,7 @@ export default function Pathfinder() {
 		setNodeState({ ...nodeState, wallNodes: newArr });
 	};
 	const changeSpeed = (val) => {
-		reset();
+		resetSearch();
 		setGridState({ ...gridState, searchSpeed: val });
 	};
 	const nodes =
@@ -151,6 +162,7 @@ export default function Pathfinder() {
 				reset={reset}
 				resetSearch={resetSearch}
 				changeSpeed={changeSpeed}
+				changeAlgo={changeAlgo}
 			></Navbar>
 			<main className="Pathfinder-body">
 				<div className="Pathfinder-grid">{nodes}</div>

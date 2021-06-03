@@ -8,10 +8,27 @@ export default function Navbar(props) {
 		searchSpeed,
 		changeSpeed,
 		resetSearch,
+		changeAlgo,
+		searchAlgo,
 	} = props;
 	return (
 		<nav className="Navbar">
 			<div className="Navbar-logo">Pathfinder</div>
+			<div>
+				<label className="Navbar-label" htmlFor="algo-select">
+					Change algorithm:
+				</label>
+				<span className="Navbar-dropdown">
+					<select
+						id="algo-select"
+						value={searchAlgo}
+						onChange={(e) => changeAlgo(e.target.value)}
+					>
+						<option value="dijkstra">Dijkstra's</option>
+						<option value="aStar">A* Search</option>
+					</select>
+				</span>
+			</div>
 			<div>
 				<label className="Navbar-label" htmlFor="speed-select">
 					Change speed:
