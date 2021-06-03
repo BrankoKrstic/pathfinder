@@ -9,7 +9,7 @@ const NUM_COLS = 100;
 export default function Pathfinder() {
 	const defaultNodeState = {
 		startNode: "410",
-		endNode: "440",
+		endNode: "3380",
 		visitedNodes: [],
 		shortestPath: [],
 		wallNodes: [],
