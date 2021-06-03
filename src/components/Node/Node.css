@@ -20,8 +20,8 @@
 .Node-visited {
 	-webkit-animation-name: visitedAnimation;
 	animation-name: visitedAnimation;
-	-webkit-animation-duration: 1s;
-	animation-duration: 1s;
+	-webkit-animation-duration: 2s;
+	animation-duration: 2s;
 	-webkit-animation-timing-function: ease-out;
 	animation-timing-function: ease-out;
 	-webkit-animation-delay: 0;
