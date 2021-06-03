@@ -135,7 +135,7 @@ export default function Pathfinder() {
 	};
 	const changeSpeed = (val) => {
 		resetSearch();
-		setGridState({ ...gridState, searchSpeed: val });
+		setGridState({ ...gridState, searchSpeed: Number(val) });
 	};
 	const nodes =
 		gridState.graph &&
