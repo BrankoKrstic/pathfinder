@@ -129,4 +129,57 @@ export class WeightedGraph {
 		}
 		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
 	}
+	aStar(vStart, vEnd, numCols, wallNodes = []) {
+		const distances = {},
+			previous = {};
+
+		let q = new PriorityQueue();
+		let path = [];
+		let visitedNodes = [];
+		for (let vertex in this.adjacencyList) {
+			distances[vertex] = Infinity;
+			if (vertex === vStart) {
+				distances[vertex] = 0;
+			}
+			previous[vertex] = null;
+			q.enqueue(vertex, distances[vertex]);
+		}
+		while (q.values.length > 0) {
+			let xDist, yDist, aStarScore;
+			let { val } = q.dequeue();
+			visitedNodes.push(val);
+			if (val === vEnd) {
+				while (previous[val]) {
+					path.push(val);
+					val = previous[val];
+				}
+				break;
+			}
+			if (distances[val] !== Infinity) {
+				this.adjacencyList[val].forEach((edge) => {
+					xDist =
+						(Number(vEnd) % numCols) -
+						(Number(edge.node) % numCols);
+					yDist = Math.floor(
+						(Number(vEnd) - Number(edge.node)) / numCols
+					);
+					aStarScore = Math.floor(
+						Math.abs(xDist) * 2 + Math.abs(yDist)
+					);
+					let newDist = distances[val] + edge.weight;
+					if (
+						newDist < distances[edge.node] &&
+						!wallNodes.includes(edge.node)
+					) {
+						distances[edge.node] = newDist;
+						previous[edge.node] = val;
+						q.enqueue(edge.node, newDist + aStarScore);
+					}
+				});
+			} else {
+				break;
+			}
+		}
+		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
+	}
 }

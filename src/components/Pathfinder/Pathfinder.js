@@ -9,7 +9,7 @@ const NUM_COLS = 50;
 export default function Pathfinder() {
 	const defaultNodeState = {
 		startNode: "410",
-		endNode: "490",
+		endNode: "440",
 		visitedNodes: [],
 		shortestPath: [],
 		wallNodes: [],
@@ -37,9 +37,15 @@ export default function Pathfinder() {
 	}, []);
 	const visualize = () => {
 		resetSearch();
-		let { visitedNodes, shortestPath } = gridState.graph.dijkstra(
+		// let { visitedNodes, shortestPath } = gridState.graph.dijkstra(
+		// 	nodeState.startNode,
+		// 	nodeState.endNode,
+		// 	nodeState.wallNodes
+		// );
+		let { visitedNodes, shortestPath } = gridState.graph.aStar(
 			nodeState.startNode,
 			nodeState.endNode,
+			NUM_COLS,
 			nodeState.wallNodes
 		);
 		let visitedArr = [];
