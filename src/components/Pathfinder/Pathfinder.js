@@ -16,7 +16,7 @@ export default function Pathfinder() {
 		mousePressed: false,
 	};
 	const [searchState, setSearchState] = useState({
-		visitedNodes: [],
+		visitedNodes: {},
 		shortestPath: [],
 	});
 	const [gridState, setGridState] = useState({
@@ -41,14 +41,14 @@ export default function Pathfinder() {
 	const visualize = () => {
 		resetSearch();
 		let { visitedNodes, shortestPath } = search();
-		let visitedArr = [];
+		let visitedObj = {};
 		let shortestPathArr = [];
 		for (let i = 0; i < visitedNodes.length + shortestPath.length; i++) {
 			if (i < visitedNodes.length) {
 				setTimeout(() => {
-					visitedArr.push(visitedNodes[i]);
+					visitedObj[visitedNodes[i]] = true;
 					setSearchState({
-						visitedNodes: visitedArr,
+						visitedNodes: visitedObj,
 						shortestPath: shortestPathArr,
 					});
 				}, i * gridState.searchSpeed);
@@ -57,14 +57,14 @@ export default function Pathfinder() {
 					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
 					setSearchState({
 						shortestPath: shortestPathArr,
-						visitedNodes: visitedArr,
+						visitedNodes: visitedObj,
 					});
 				}, i * gridState.searchSpeed);
 			}
 		}
 	};
 	const clickDown = (val) => {
-		if (searchState.visitedNodes.length > 0) return;
+		if (Object.values(searchState.visitedNodes).length > 0) return;
 		if (val === nodeState.startNode) {
 			setNodeState({
 				...nodeState,
@@ -85,7 +85,7 @@ export default function Pathfinder() {
 		});
 	};
 	const resetSearch = () => {
-		setSearchState({ visitedNodes: [], shortestPath: [] });
+		setSearchState({ visitedNodes: {}, shortestPath: [] });
 	};
 	const reset = () => {
 		resetSearch();
@@ -146,7 +146,7 @@ export default function Pathfinder() {
 				location={String(i)}
 				start={String(i) === nodeState.startNode}
 				end={String(i) === nodeState.endNode}
-				visited={searchState.visitedNodes.includes(String(i))}
+				visited={searchState.visitedNodes[String(i)]}
 				final={searchState.shortestPath.includes(String(i))}
 				wall={nodeState.wallNodes.includes(String(i))}
 				toggleWall={toggleWall}
