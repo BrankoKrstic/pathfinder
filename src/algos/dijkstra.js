@@ -2,6 +2,14 @@ const swap = (arr, idx1, idx2) => {
 	[arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
 };
 
+const calcXDist = (node1, node2, numCols) => {
+	return Math.abs((Number(node1) % numCols) - (Number(node2) % numCols));
+};
+
+const calcYDist = (node1, node2, numCols) => {
+	return Math.abs(Math.floor((Number(node1) - Number(node2)) / numCols));
+};
+
 class Node {
 	constructor(val, priority) {
 		this.val = val;
@@ -157,15 +165,17 @@ export class WeightedGraph {
 			}
 			if (distances[val] !== Infinity) {
 				this.adjacencyList[val].forEach((edge) => {
-					xDist =
-						(Number(vEnd) % numCols) -
-						(Number(edge.node) % numCols);
-					yDist = Math.floor(
-						(Number(vEnd) - Number(edge.node)) / numCols
-					);
-					aStarScore = Math.floor(
-						Math.abs(xDist) * 2 + Math.abs(yDist)
-					);
+					xDist = calcXDist(vEnd, edge.node, numCols);
+					yDist = calcYDist(vEnd, edge.node, numCols);
+					if (
+						calcYDist(vEnd, vStart, numCols) <
+						calcXDist(vEnd, vStart, numCols)
+					) {
+						xDist = xDist * 2;
+					} else {
+						yDist = yDist * 2;
+					}
+					aStarScore = Math.floor(xDist + yDist);
 					let newDist = distances[val] + edge.weight;
 					if (
 						newDist < distances[edge.node] &&

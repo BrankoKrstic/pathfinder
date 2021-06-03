@@ -39,9 +39,9 @@ export default function Navbar(props) {
 						value={searchSpeed}
 						onChange={(e) => changeSpeed(e.target.value)}
 					>
-						<option value="10">Fast</option>
-						<option value="25">Medium</option>
-						<option value="40">Slow</option>
+						<option value="5">Fast</option>
+						<option value="15">Medium</option>
+						<option value="25">Slow</option>
 					</select>
 				</span>
 			</div>
