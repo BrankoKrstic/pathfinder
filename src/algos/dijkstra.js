@@ -7,7 +7,10 @@ const calcXDist = (node1, node2, numCols) => {
 };
 
 const calcYDist = (node1, node2, numCols) => {
-	return Math.abs(Math.floor((Number(node1) - Number(node2)) / numCols));
+	return Math.abs(
+		Math.floor(Number(node1) / numCols) -
+			Math.floor(Number(node2) / numCols)
+	);
 };
 
 class Node {
@@ -32,7 +35,7 @@ class PriorityQueue {
 		while (idx > 0) {
 			let parentIdx = Math.floor((idx - 1) / 2);
 			let parent = this.values[parentIdx];
-			if (element.priority >= parent.priority) break;
+			if (element.priority > parent.priority) break;
 			this.values[parentIdx] = element;
 			this.values[idx] = parent;
 			idx = parentIdx;
@@ -153,7 +156,7 @@ export class WeightedGraph {
 			q.enqueue(vertex, distances[vertex]);
 		}
 		while (q.values.length > 0) {
-			let xDist, yDist, aStarScore;
+			let xDist, yDist, heuristicScore;
 			let { val } = q.dequeue();
 			visitedNodes.push(val);
 			if (val === vEnd) {
@@ -167,15 +170,7 @@ export class WeightedGraph {
 				this.adjacencyList[val].forEach((edge) => {
 					xDist = calcXDist(vEnd, edge.node, numCols);
 					yDist = calcYDist(vEnd, edge.node, numCols);
-					if (
-						calcYDist(vEnd, vStart, numCols) <
-						calcXDist(vEnd, vStart, numCols)
-					) {
-						xDist = xDist * 2;
-					} else {
-						yDist = yDist * 2;
-					}
-					aStarScore = Math.floor(xDist + yDist);
+					heuristicScore = xDist + yDist;
 					let newDist = distances[val] + edge.weight;
 					if (
 						newDist < distances[edge.node] &&
@@ -183,7 +178,7 @@ export class WeightedGraph {
 					) {
 						distances[edge.node] = newDist;
 						previous[edge.node] = val;
-						q.enqueue(edge.node, newDist + aStarScore);
+						q.enqueue(edge.node, newDist + heuristicScore);
 					}
 				});
 			} else {
