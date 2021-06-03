@@ -10,16 +10,18 @@ export default function Pathfinder() {
 	const defaultNodeState = {
 		startNode: "410",
 		endNode: "3380",
-		visitedNodes: [],
-		shortestPath: [],
 		wallNodes: [],
 		movingStartNode: false,
 		movingEndNode: false,
 		mousePressed: false,
 	};
+	const [searchState, setSearchState] = useState({
+		visitedNodes: [],
+		shortestPath: [],
+	});
 	const [gridState, setGridState] = useState({
 		graph: null,
-		searchSpeed: 25,
+		searchSpeed: 15,
 		searchAlgo: "dijkstra",
 	});
 	const [nodeState, setNodeState] = useState(defaultNodeState);
@@ -45,8 +47,7 @@ export default function Pathfinder() {
 			if (i < visitedNodes.length) {
 				setTimeout(() => {
 					visitedArr.push(visitedNodes[i]);
-					setNodeState({
-						...nodeState,
+					setSearchState({
 						visitedNodes: visitedArr,
 						shortestPath: shortestPathArr,
 					});
@@ -54,8 +55,7 @@ export default function Pathfinder() {
 			} else {
 				setTimeout(() => {
 					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
-					setNodeState({
-						...nodeState,
+					setSearchState({
 						shortestPath: shortestPathArr,
 						visitedNodes: visitedArr,
 					});
@@ -64,7 +64,7 @@ export default function Pathfinder() {
 		}
 	};
 	const clickDown = (val) => {
-		if (nodeState.visitedNodes.length > 0) return;
+		if (searchState.visitedNodes.length > 0) return;
 		if (val === nodeState.startNode) {
 			setNodeState({
 				...nodeState,
@@ -85,9 +85,10 @@ export default function Pathfinder() {
 		});
 	};
 	const resetSearch = () => {
-		setNodeState({ ...nodeState, visitedNodes: [], shortestPath: [] });
+		setSearchState({ visitedNodes: [], shortestPath: [] });
 	};
 	const reset = () => {
+		resetSearch();
 		setNodeState(defaultNodeState);
 	};
 	const removeWalls = () => {
@@ -145,8 +146,8 @@ export default function Pathfinder() {
 				location={String(i)}
 				start={String(i) === nodeState.startNode}
 				end={String(i) === nodeState.endNode}
-				visited={nodeState.visitedNodes.includes(String(i))}
-				final={nodeState.shortestPath.includes(String(i))}
+				visited={searchState.visitedNodes.includes(String(i))}
+				final={searchState.shortestPath.includes(String(i))}
 				wall={nodeState.wallNodes.includes(String(i))}
 				toggleWall={toggleWall}
 				clickDown={clickDown}

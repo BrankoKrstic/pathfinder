@@ -113,7 +113,6 @@ export class WeightedGraph {
 		}
 		while (q.values.length > 0) {
 			let { val, priority } = q.dequeue();
-			visitedNodes.push(val);
 			if (val === vEnd) {
 				while (previous[val]) {
 					path.push(val);
@@ -122,6 +121,7 @@ export class WeightedGraph {
 				break;
 			}
 			if (distances[val] !== Infinity) {
+				visitedNodes.push(val);
 				console.log(distances[val]);
 				this.adjacencyList[val].forEach((edge) => {
 					let newDist = priority + edge.weight;
@@ -158,7 +158,6 @@ export class WeightedGraph {
 		while (q.values.length > 0) {
 			let xDist, yDist, heuristicScore;
 			let { val } = q.dequeue();
-			visitedNodes.push(val);
 			if (val === vEnd) {
 				while (previous[val]) {
 					path.push(val);
@@ -167,6 +166,7 @@ export class WeightedGraph {
 				break;
 			}
 			if (distances[val] !== Infinity) {
+				visitedNodes.push(val);
 				this.adjacencyList[val].forEach((edge) => {
 					xDist = calcXDist(vEnd, edge.node, numCols);
 					yDist = calcYDist(vEnd, edge.node, numCols);
