@@ -21,7 +21,7 @@ export default function Pathfinder() {
 	});
 	const [gridState, setGridState] = useState({
 		graph: null,
-		searchSpeed: 5,
+		searchSpeed: 10,
 		searchAlgo: "dijkstra",
 	});
 	const [nodeState, setNodeState] = useState(defaultNodeState);
