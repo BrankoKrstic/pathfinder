@@ -21,7 +21,7 @@ export default function Pathfinder() {
 	});
 	const [gridState, setGridState] = useState({
 		graph: null,
-		searchSpeed: 10,
+		searchSpeed: 20,
 		searchAlgo: "dijkstra",
 	});
 	const [nodeState, setNodeState] = useState(defaultNodeState);
@@ -106,6 +106,12 @@ export default function Pathfinder() {
 				nodeState.startNode,
 				nodeState.endNode,
 				NUM_COLS,
+				nodeState.wallNodes
+			);
+		} else if (gridState.searchAlgo === "BFS") {
+			return gridState.graph.BFS(
+				nodeState.startNode,
+				nodeState.endNode,
 				nodeState.wallNodes
 			);
 		}

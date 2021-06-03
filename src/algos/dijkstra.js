@@ -124,7 +124,6 @@ export class WeightedGraph {
 				if (!visitedNodes.includes(val)) {
 					visitedNodes.push(val);
 				}
-				console.log(distances[val]);
 				this.adjacencyList[val].forEach((edge) => {
 					let newDist = priority + edge.weight;
 					if (
@@ -187,6 +186,41 @@ export class WeightedGraph {
 				});
 			} else {
 				break;
+			}
+		}
+		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
+	}
+	BFS(vStart, vEnd, wallNodes = []) {
+		const previous = {};
+		let path = [];
+		let visitedNodes = [];
+		let q = new PriorityQueue();
+		let priority = 1;
+		q.enqueue(vStart, 1);
+		while (q.values.length > 0) {
+			let { val } = q.dequeue();
+			visitedNodes.push(val);
+			if (val === vEnd) {
+				console.log("ending");
+				while (previous[val]) {
+					path.push(val);
+					val = previous[val];
+				}
+				break;
+			} else {
+				priority++;
+				// eslint-disable-next-line no-loop-func
+				this.adjacencyList[val].forEach((edge) => {
+					if (
+						edge.node !== vStart &&
+						!previous[edge.node] &&
+						!wallNodes.includes(edge.node)
+					) {
+						console.log(q.values);
+						previous[edge.node] = val;
+						q.enqueue(edge.node, priority);
+					}
+				});
 			}
 		}
 		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };

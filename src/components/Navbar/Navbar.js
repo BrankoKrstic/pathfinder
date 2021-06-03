@@ -26,6 +26,7 @@ export default function Navbar(props) {
 					>
 						<option value="dijkstra">Dijkstra's</option>
 						<option value="aStar">A* Search</option>
+						<option value="BFS">BFS</option>
 					</select>
 				</span>
 			</div>
