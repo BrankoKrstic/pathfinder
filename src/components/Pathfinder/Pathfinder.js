@@ -114,6 +114,12 @@ export default function Pathfinder() {
 				nodeState.endNode,
 				nodeState.wallNodes
 			);
+		} else if (gridState.searchAlgo === "DFS") {
+			return gridState.graph.DFS(
+				nodeState.startNode,
+				nodeState.endNode,
+				nodeState.wallNodes
+			);
 		}
 	};
 	const changeAlgo = (val) => {

@@ -216,7 +216,6 @@ export class WeightedGraph {
 						!previous[edge.node] &&
 						!wallNodes.includes(edge.node)
 					) {
-						console.log(q.values);
 						previous[edge.node] = val;
 						q.enqueue(edge.node, priority);
 					}
@@ -224,5 +223,26 @@ export class WeightedGraph {
 			}
 		}
 		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
+	}
+	DFS(vStart, vEnd, wallNodes = []) {
+		let visitedNodes = [];
+		const recurrSearch = (currNode) => {
+			let newValue = [currNode];
+			console.log(currNode);
+			visitedNodes.push(currNode);
+			if (currNode === vEnd) return [currNode];
+			this.adjacencyList[currNode].forEach((edge) => {
+				if (
+					!visitedNodes.includes(edge.node) &&
+					!visitedNodes.includes(vEnd) &&
+					!wallNodes.includes(edge.node)
+				) {
+					newValue = newValue.concat(recurrSearch(edge.node));
+				}
+			});
+			return newValue;
+		};
+		let path = recurrSearch(vStart).reverse();
+		return { visitedNodes, shortestPath: path.reverse() };
 	}
 }
