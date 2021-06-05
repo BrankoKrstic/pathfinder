@@ -95,38 +95,45 @@ export default function Pathfinder() {
 		setNodeState({ ...nodeState, wallNodes: [] });
 	};
 	const search = () => {
-		if (gridState.searchAlgo === "dijkstra") {
-			return gridState.graph.dijkstra(
-				nodeState.startNode,
-				nodeState.endNode,
-				nodeState.wallNodes
-			);
-		} else if (gridState.searchAlgo === "aStar") {
-			return gridState.graph.aStar(
-				nodeState.startNode,
-				nodeState.endNode,
-				NUM_COLS,
-				nodeState.wallNodes
-			);
-		} else if (gridState.searchAlgo === "BFS") {
-			return gridState.graph.BFS(
-				nodeState.startNode,
-				nodeState.endNode,
-				nodeState.wallNodes
-			);
-		} else if (gridState.searchAlgo === "DFS") {
-			return gridState.graph.DFS(
-				nodeState.startNode,
-				nodeState.endNode,
-				nodeState.wallNodes
-			);
-		} else if (gridState.searchAlgo === "GBS") {
-			return gridState.graph.GBS(
-				nodeState.startNode,
-				nodeState.endNode,
-				NUM_COLS,
-				nodeState.wallNodes
-			);
+		switch (gridState.searchAlgo) {
+			case "dijkstra":
+				return gridState.graph.dijkstra(
+					nodeState.startNode,
+					nodeState.endNode,
+					nodeState.wallNodes
+				);
+			case "aStar":
+				return gridState.graph.aStar(
+					nodeState.startNode,
+					nodeState.endNode,
+					NUM_COLS,
+					nodeState.wallNodes
+				);
+			case "BFS":
+				return gridState.graph.BFS(
+					nodeState.startNode,
+					nodeState.endNode,
+					nodeState.wallNodes
+				);
+			case "DFS":
+				return gridState.graph.DFS(
+					nodeState.startNode,
+					nodeState.endNode,
+					nodeState.wallNodes
+				);
+			case "GBS":
+				return gridState.graph.GBS(
+					nodeState.startNode,
+					nodeState.endNode,
+					NUM_COLS,
+					nodeState.wallNodes
+				);
+			default:
+				return gridState.graph.dijkstra(
+					nodeState.startNode,
+					nodeState.endNode,
+					nodeState.wallNodes
+				);
 		}
 	};
 	const changeAlgo = (val) => {
