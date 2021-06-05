@@ -31,13 +31,11 @@ class PriorityQueue {
 	}
 	bubbleUp() {
 		let idx = this.values.length - 1;
-		const element = this.values[idx];
 		while (idx > 0) {
 			let parentIdx = Math.floor((idx - 1) / 2);
-			let parent = this.values[parentIdx];
-			if (element.priority > parent.priority) break;
-			this.values[parentIdx] = element;
-			this.values[idx] = parent;
+			if (this.values[idx].priority > this.values[parentIdx].priority)
+				break;
+			swap(this.values, idx, parentIdx);
 			idx = parentIdx;
 		}
 	}
@@ -58,27 +56,28 @@ class PriorityQueue {
 			let leftChildIdx = 2 * idx + 1;
 			let rightChildIdx = 2 * idx + 2;
 			let leftChild, rightChild;
-			let swap = null;
+			let swapIdx = null;
 
 			if (leftChildIdx < length) {
 				leftChild = this.values[leftChildIdx];
 				if (leftChild.priority < element.priority) {
-					swap = leftChildIdx;
+					swapIdx = leftChildIdx;
 				}
 			}
 			if (rightChildIdx < length) {
 				rightChild = this.values[rightChildIdx];
 				if (
-					(swap === null && rightChild.priority < element.priority) ||
-					(swap !== null && rightChild.priority < leftChild.priority)
+					(swapIdx === null &&
+						rightChild.priority < element.priority) ||
+					(swapIdx !== null &&
+						rightChild.priority < leftChild.priority)
 				) {
-					swap = rightChildIdx;
+					swapIdx = rightChildIdx;
 				}
 			}
-			if (swap === null) break;
-			this.values[idx] = this.values[swap];
-			this.values[swap] = element;
-			idx = swap;
+			if (swapIdx === null) break;
+			swap(this.values, idx, swapIdx);
+			idx = swapIdx;
 		}
 	}
 }
