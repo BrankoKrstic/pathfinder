@@ -1,3 +1,5 @@
+import Stack from "../structures/Stack";
+
 const swap = (arr, idx1, idx2) => {
 	[arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
 };
@@ -249,13 +251,14 @@ export class WeightedGraph {
 	DFS(vStart, vEnd, wallNodes = []) {
 		let visitedNodes = [];
 		let shortestPath = [];
-		const stack = [vStart];
+		const stack = new Stack();
+		stack.push(vStart);
 		const previous = {};
 		for (let vertex in this.adjacencyList) {
 			previous[vertex] = null;
 		}
-		while (stack.length && !visitedNodes.includes(vEnd)) {
-			let currNode = stack.pop();
+		while (stack.size && !visitedNodes.includes(vEnd)) {
+			let currNode = stack.pop().val;
 			visitedNodes.push(currNode);
 			this.adjacencyList[currNode].forEach((edge) => {
 				if (
