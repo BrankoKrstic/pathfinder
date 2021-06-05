@@ -224,25 +224,59 @@ export class WeightedGraph {
 		}
 		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
 	}
+	// COMMENT: Left recursive depth-first search for referce
+	// DO NOT USE FOR GRIDS WITH 2700+ VERTICES OR IT THE ALGO WITH EXCEED CHROME'S MAXIMUM CALL STACK (works fine on firefox)
+	// DFSR(vStart, vEnd, wallNodes = []) {
+	// 	let visitedNodes = [];
+	// 	const recurrSearch = (currNode) => {
+	// 		let newValue = [currNode];
+	// 		console.log(currNode);
+	// 		visitedNodes.push(currNode);
+	// 		if (currNode === vEnd) return [currNode];
+	// 		this.adjacencyList[currNode].forEach((edge) => {
+	// 			if (
+	// 				!visitedNodes.includes(edge.node) &&
+	// 				!visitedNodes.includes(vEnd) &&
+	// 				!wallNodes.includes(edge.node)
+	// 			) {
+	// 				newValue = newValue.concat(recurrSearch(edge.node));
+	// 			}
+	// 		});
+	// 		return newValue;
+	// 	};
+	// 	let path = recurrSearch(vStart).reverse();
+	// 	return { visitedNodes, shortestPath: path.reverse() };
+	// }
 	DFS(vStart, vEnd, wallNodes = []) {
 		let visitedNodes = [];
-		const recurrSearch = (currNode) => {
-			let newValue = [currNode];
-			console.log(currNode);
+		let shortestPath = [];
+		const stack = [vStart];
+		const previous = {};
+		for (let vertex in this.adjacencyList) {
+			previous[vertex] = null;
+		}
+		while (stack.length && !visitedNodes.includes(vEnd)) {
+			let currNode = stack.pop();
 			visitedNodes.push(currNode);
-			if (currNode === vEnd) return [currNode];
 			this.adjacencyList[currNode].forEach((edge) => {
 				if (
 					!visitedNodes.includes(edge.node) &&
 					!visitedNodes.includes(vEnd) &&
 					!wallNodes.includes(edge.node)
 				) {
-					newValue = newValue.concat(recurrSearch(edge.node));
+					previous[edge.node] = currNode;
+					stack.push(edge.node);
 				}
 			});
-			return newValue;
+		}
+		let finishNode = vEnd;
+		while (previous[finishNode]) {
+			shortestPath.push(finishNode);
+			finishNode = previous[finishNode];
+		}
+		return {
+			visitedNodes,
+			shortestPath: shortestPath.concat(vStart).reverse(),
 		};
-		let path = recurrSearch(vStart).reverse();
-		return { visitedNodes, shortestPath: path.reverse() };
 	}
 }
