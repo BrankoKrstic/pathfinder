@@ -28,6 +28,7 @@ export default function Navbar(props) {
 						<option value="aStar">A* Search</option>
 						<option value="BFS">BFS</option>
 						<option value="DFS">DFS</option>
+						<option value="GBS">Greedy Best-first Search</option>
 					</select>
 				</span>
 			</div>

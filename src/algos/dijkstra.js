@@ -279,4 +279,42 @@ export class WeightedGraph {
 			shortestPath: shortestPath.concat(vStart).reverse(),
 		};
 	}
+	//Greedy Best-first Search
+	GBS(vStart, vEnd, numCols, wallNodes = []) {
+		const previous = {};
+		let q = new PriorityQueue();
+		let path = [];
+		let visitedNodes = [];
+		for (let vertex in this.adjacencyList) {
+			previous[vertex] = null;
+		}
+		q.enqueue(vStart, 1);
+		while (q.values.length > 0) {
+			let xDist, yDist, heuristicScore;
+			let { val } = q.dequeue();
+			if (val === vEnd) {
+				while (previous[val]) {
+					path.push(val);
+					val = previous[val];
+				}
+				break;
+			}
+			if (visitedNodes.includes(val)) continue;
+			visitedNodes.push(val);
+			this.adjacencyList[val].forEach((edge) => {
+				xDist = calcXDist(vEnd, edge.node, numCols);
+				yDist = calcYDist(vEnd, edge.node, numCols);
+				heuristicScore = xDist + yDist;
+				console.log(heuristicScore);
+				if (
+					!visitedNodes.includes(edge.node) &&
+					!wallNodes.includes(edge.node)
+				) {
+					previous[edge.node] = val;
+					q.enqueue(edge.node, heuristicScore);
+				}
+			});
+		}
+		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
+	}
 }

@@ -120,6 +120,13 @@ export default function Pathfinder() {
 				nodeState.endNode,
 				nodeState.wallNodes
 			);
+		} else if (gridState.searchAlgo === "GBS") {
+			return gridState.graph.GBS(
+				nodeState.startNode,
+				nodeState.endNode,
+				NUM_COLS,
+				nodeState.wallNodes
+			);
 		}
 	};
 	const changeAlgo = (val) => {
