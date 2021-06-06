@@ -1,4 +1,3 @@
-import "./App.css";
 import Pathfinder from "./components/Pathfinder/Pathfinder";
 
 function App() {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { WeightedGraph } from "../../algos/dijkstra";
+import { WeightedGraph } from "../../graph/graph";
 import Node from "../Node/Node";
 import "./Pathfinder.css";
 import Navbar from "../Navbar/Navbar";

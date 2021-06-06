@@ -49,7 +49,7 @@ export default function Navbar(props) {
 				</span>
 			</div>
 			<button className="Start-button" onClick={visualize}>
-				Visualize!
+				Run!
 			</button>
 			<div className="Navbarbutton-container">
 				<button className="Navbar-button" onClick={resetSearch}>
