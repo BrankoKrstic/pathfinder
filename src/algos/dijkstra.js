@@ -1,5 +1,6 @@
 import Stack from "../structures/Stack";
 import PriorityQueue from "../structures/PriorityQueue";
+import calcHeuristic from "../helpers/calcHeuristic";
 
 const calcXDist = (node1, node2, numCols) => {
 	return Math.abs((Number(node1) % numCols) - (Number(node2) % numCols));
@@ -73,7 +74,6 @@ export class WeightedGraph {
 	aStar(vStart, vEnd, numCols, wallNodes = []) {
 		const distances = {},
 			previous = {};
-
 		let q = new PriorityQueue();
 		let path = [];
 		let visitedNodes = [];
@@ -86,7 +86,6 @@ export class WeightedGraph {
 			q.enqueue(vertex, distances[vertex]);
 		}
 		while (q.values.length > 0) {
-			let xDist, yDist, heuristicScore;
 			let { val } = q.dequeue();
 			if (val === vEnd) {
 				while (previous[val]) {
@@ -100,9 +99,11 @@ export class WeightedGraph {
 					visitedNodes.push(val);
 				}
 				this.adjacencyList[val].forEach((edge) => {
-					xDist = calcXDist(vEnd, edge.node, numCols);
-					yDist = calcYDist(vEnd, edge.node, numCols);
-					heuristicScore = xDist + yDist;
+					let heuristicScore = calcHeuristic(
+						vEnd,
+						edge.node,
+						numCols
+					);
 					let newDist = distances[val] + edge.weight;
 					if (
 						newDist < distances[edge.node] &&
@@ -220,7 +221,6 @@ export class WeightedGraph {
 		}
 		q.enqueue(vStart, 1);
 		while (q.values.length > 0) {
-			let xDist, yDist, heuristicScore;
 			let { val } = q.dequeue();
 			if (val === vEnd) {
 				while (previous[val]) {
@@ -232,9 +232,7 @@ export class WeightedGraph {
 			if (visitedNodes.includes(val)) continue;
 			visitedNodes.push(val);
 			this.adjacencyList[val].forEach((edge) => {
-				xDist = calcXDist(vEnd, edge.node, numCols);
-				yDist = calcYDist(vEnd, edge.node, numCols);
-				heuristicScore = xDist + yDist;
+				let heuristicScore = calcHeuristic(vEnd, edge.node, numCols);
 				console.log(heuristicScore);
 				if (
 					!visitedNodes.includes(edge.node) &&
