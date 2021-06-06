@@ -2,17 +2,6 @@ import Stack from "../structures/Stack";
 import PriorityQueue from "../structures/PriorityQueue";
 import calcHeuristic from "../helpers/calcHeuristic";
 
-const calcXDist = (node1, node2, numCols) => {
-	return Math.abs((Number(node1) % numCols) - (Number(node2) % numCols));
-};
-
-const calcYDist = (node1, node2, numCols) => {
-	return Math.abs(
-		Math.floor(Number(node1) / numCols) -
-			Math.floor(Number(node2) / numCols)
-	);
-};
-
 export class WeightedGraph {
 	constructor() {
 		this.adjacencyList = {};
@@ -31,7 +20,7 @@ export class WeightedGraph {
 		const distances = {},
 			previous = {};
 		let q = new PriorityQueue();
-		let path = [];
+		let shortestPath = [];
 		let visitedNodes = [];
 		for (let vertex in this.adjacencyList) {
 			distances[vertex] = Infinity;
@@ -45,7 +34,7 @@ export class WeightedGraph {
 			let { val, priority } = q.dequeue();
 			if (val === vEnd) {
 				while (previous[val]) {
-					path.push(val);
+					shortestPath.push(val);
 					val = previous[val];
 				}
 				break;
@@ -69,13 +58,16 @@ export class WeightedGraph {
 				break;
 			}
 		}
-		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
+		if (shortestPath.length > 0) {
+			shortestPath = shortestPath.concat(vStart).reverse();
+		}
+		return { visitedNodes, shortestPath };
 	}
 	aStar(vStart, vEnd, numCols, wallNodes = []) {
 		const distances = {},
 			previous = {};
 		let q = new PriorityQueue();
-		let path = [];
+		let shortestPath = [];
 		let visitedNodes = [];
 		for (let vertex in this.adjacencyList) {
 			distances[vertex] = Infinity;
@@ -89,7 +81,7 @@ export class WeightedGraph {
 			let { val } = q.dequeue();
 			if (val === vEnd) {
 				while (previous[val]) {
-					path.push(val);
+					shortestPath.push(val);
 					val = previous[val];
 				}
 				break;
@@ -118,11 +110,14 @@ export class WeightedGraph {
 				break;
 			}
 		}
-		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
+		if (shortestPath.length > 0) {
+			shortestPath = shortestPath.concat(vStart).reverse();
+		}
+		return { visitedNodes, shortestPath };
 	}
 	BFS(vStart, vEnd, wallNodes = []) {
 		const previous = {};
-		let path = [];
+		let shortestPath = [];
 		let visitedNodes = [];
 		let q = new PriorityQueue();
 		let priority = 1;
@@ -133,7 +128,7 @@ export class WeightedGraph {
 			if (val === vEnd) {
 				console.log("ending");
 				while (previous[val]) {
-					path.push(val);
+					shortestPath.push(val);
 					val = previous[val];
 				}
 				break;
@@ -152,7 +147,10 @@ export class WeightedGraph {
 				});
 			}
 		}
-		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
+		if (shortestPath.length > 0) {
+			shortestPath = shortestPath.concat(vStart).reverse();
+		}
+		return { visitedNodes, shortestPath };
 	}
 	// COMMENT: Left recursive depth-first search for referce
 	// DO NOT USE FOR GRIDS WITH 2700+ VERTICES OR IT THE ALGO WITH EXCEED CHROME'S MAXIMUM CALL STACK (works fine on firefox)
@@ -205,16 +203,19 @@ export class WeightedGraph {
 			shortestPath.push(finishNode);
 			finishNode = previous[finishNode];
 		}
+		if (shortestPath.length > 0) {
+			shortestPath = shortestPath.concat(vStart).reverse();
+		}
 		return {
 			visitedNodes,
-			shortestPath: shortestPath.concat(vStart).reverse(),
+			shortestPath,
 		};
 	}
 	//Greedy Best-first Search
 	GBS(vStart, vEnd, numCols, wallNodes = []) {
 		const previous = {};
 		let q = new PriorityQueue();
-		let path = [];
+		let shortestPath = [];
 		let visitedNodes = [];
 		for (let vertex in this.adjacencyList) {
 			previous[vertex] = null;
@@ -224,7 +225,7 @@ export class WeightedGraph {
 			let { val } = q.dequeue();
 			if (val === vEnd) {
 				while (previous[val]) {
-					path.push(val);
+					shortestPath.push(val);
 					val = previous[val];
 				}
 				break;
@@ -233,7 +234,6 @@ export class WeightedGraph {
 			visitedNodes.push(val);
 			this.adjacencyList[val].forEach((edge) => {
 				let heuristicScore = calcHeuristic(vEnd, edge.node, numCols);
-				console.log(heuristicScore);
 				if (
 					!visitedNodes.includes(edge.node) &&
 					!wallNodes.includes(edge.node)
@@ -243,6 +243,9 @@ export class WeightedGraph {
 				}
 			});
 		}
-		return { visitedNodes, shortestPath: path.concat(vStart).reverse() };
+		if (shortestPath.length > 0) {
+			shortestPath = shortestPath.concat(vStart).reverse();
+		}
+		return { visitedNodes, shortestPath };
 	}
 }
