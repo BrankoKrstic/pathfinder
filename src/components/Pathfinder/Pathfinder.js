@@ -230,8 +230,8 @@ export default function Pathfinder() {
 		if (maze.includes(nodeState.startNode)) {
 			maze.splice(maze.indexOf(nodeState.startNode), 1);
 		}
-		if (maze.includes(nodeState.endNodeNode)) {
-			maze.splice(maze.indexOf(nodeState.endNodeNode), 1);
+		if (maze.includes(nodeState.endNode)) {
+			maze.splice(maze.indexOf(nodeState.endNode), 1);
 		}
 		setNodeState({ ...nodeState, wallNodes: maze });
 	};
