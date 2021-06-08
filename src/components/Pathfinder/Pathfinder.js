@@ -177,23 +177,20 @@ export default function Pathfinder() {
 		let newCell;
 		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
 			newCell = String(i);
-			if (
-				newCell === nodeState.startNode ||
-				newCell === nodeState.endNode
-			)
-				continue;
 			maze.push(newCell);
 		}
-		const checkElligibility = (node) => {
-			return (
-				maze.includes(node) &&
-				Number(node) > 0 &&
-				Number(node) < NUM_ROWS * NUM_COLS
-			);
+		const checkElligibility = (node, direction) => {
+			if (
+				(direction === "LEFT" && node % NUM_COLS === NUM_COLS - 2) ||
+				(direction === "RIGHT" && node % NUM_COLS === 0)
+			)
+				return false;
+			return maze.includes(node);
 		};
 		const recurMaze = (currNode) => {
+			maze.splice(maze.indexOf(String(currNode)), 1);
 			let moves = ["LEFT", "DOWN", "UP", "RIGHT"];
-			let nextNode, randDirection, elligible, move;
+			let nextNode, randDirection, elligible, move, betweenNode;
 			while (moves.length > 0) {
 				randDirection = Math.floor(Math.random() * moves.length);
 				move = moves[randDirection];
@@ -201,31 +198,41 @@ export default function Pathfinder() {
 				switch (move) {
 					case "LEFT":
 						nextNode = currNode - 2;
-						elligible = checkElligibility(String(nextNode));
+						betweenNode = currNode - 1;
+						elligible = checkElligibility(String(nextNode), move);
 						break;
 					case "RIGHT":
 						nextNode = currNode + 2;
-						elligible = checkElligibility(String(nextNode));
+						betweenNode = currNode + 1;
+						elligible = checkElligibility(String(nextNode), move);
 						break;
 					case "UP":
-						nextNode = currNode - NUM_COLS;
-						elligible = checkElligibility(String(nextNode));
+						nextNode = currNode - NUM_COLS * 2;
+						betweenNode = currNode - NUM_COLS;
+						elligible = checkElligibility(String(nextNode), move);
 						break;
 					case "DOWN":
-						nextNode = currNode + NUM_COLS;
-						elligible = checkElligibility(String(nextNode));
+						nextNode = currNode + NUM_COLS * 2;
+						betweenNode = currNode + NUM_COLS;
+						elligible = checkElligibility(String(nextNode), move);
 						break;
 					default:
 						nextNode = null;
 						elligible = false;
 				}
 				if (elligible) {
-					maze.splice(maze.indexOf(String(nextNode)));
+					maze.splice(maze.indexOf(String(betweenNode)), 1);
 					recurMaze(nextNode);
 				}
 			}
 		};
-		recurMaze(NUM_COLS + 1);
+		recurMaze(0);
+		if (maze.includes(nodeState.startNode)) {
+			maze.splice(maze.indexOf(nodeState.startNode), 1);
+		}
+		if (maze.includes(nodeState.endNodeNode)) {
+			maze.splice(maze.indexOf(nodeState.endNodeNode), 1);
+		}
 		setNodeState({ ...nodeState, wallNodes: maze });
 	};
 	const nodes =
