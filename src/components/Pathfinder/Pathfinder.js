@@ -141,9 +141,17 @@ export default function Pathfinder() {
 		setGridState({ ...gridState, searchAlgo: val });
 	};
 	const toggleWall = (node) => {
-		if (nodeState.movingStartNode)
+		if (
+			nodeState.movingStartNode &&
+			node !== nodeState.endNode &&
+			!nodeState.wallNodes.includes(node)
+		)
 			return setNodeState({ ...nodeState, startNode: node });
-		if (nodeState.movingEndNode)
+		if (
+			nodeState.movingEndNode &&
+			node !== nodeState.startNode &&
+			!nodeState.wallNodes.includes(node)
+		)
 			return setNodeState({ ...nodeState, endNode: node });
 		if (
 			!nodeState.mousePressed ||
@@ -165,13 +173,18 @@ export default function Pathfinder() {
 		setGridState({ ...gridState, searchSpeed: Number(val) });
 	};
 	const generateMaze = () => {
-		const elligibleCells = [];
-		for (let i = 1; i < NUM_ROWS; i += 2) {
-			for (let j = 1; j < NUM_COLS; j += 2) {
-				elligibleCells.push(String(i * NUM_COLS + j));
-			}
+		const maze = [];
+		let newCell;
+		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
+			newCell = String(i);
+			if (
+				newCell === nodeState.startNode ||
+				newCell === nodeState.endNode
+			)
+				continue;
+			maze.push(newCell);
 		}
-		setNodeState({ ...nodeState, wallNodes: elligibleCells });
+		setNodeState({ ...nodeState, wallNodes: maze });
 	};
 	const nodes =
 		gridState.graph &&
