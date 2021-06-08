@@ -184,6 +184,48 @@ export default function Pathfinder() {
 				continue;
 			maze.push(newCell);
 		}
+		const checkElligibility = (node) => {
+			return (
+				maze.includes(node) &&
+				Number(node) > 0 &&
+				Number(node) < NUM_ROWS * NUM_COLS
+			);
+		};
+		const recurMaze = (currNode) => {
+			let moves = ["LEFT", "DOWN", "UP", "RIGHT"];
+			let nextNode, randDirection, elligible, move;
+			while (moves.length > 0) {
+				randDirection = Math.floor(Math.random() * moves.length);
+				move = moves[randDirection];
+				moves.splice(randDirection, 1);
+				switch (move) {
+					case "LEFT":
+						nextNode = currNode - 2;
+						elligible = checkElligibility(String(nextNode));
+						break;
+					case "RIGHT":
+						nextNode = currNode + 2;
+						elligible = checkElligibility(String(nextNode));
+						break;
+					case "UP":
+						nextNode = currNode - NUM_COLS;
+						elligible = checkElligibility(String(nextNode));
+						break;
+					case "DOWN":
+						nextNode = currNode + NUM_COLS;
+						elligible = checkElligibility(String(nextNode));
+						break;
+					default:
+						nextNode = null;
+						elligible = false;
+				}
+				if (elligible) {
+					maze.splice(maze.indexOf(String(nextNode)));
+					recurMaze(nextNode);
+				}
+			}
+		};
+		recurMaze(NUM_COLS + 1);
 		setNodeState({ ...nodeState, wallNodes: maze });
 	};
 	const nodes =
