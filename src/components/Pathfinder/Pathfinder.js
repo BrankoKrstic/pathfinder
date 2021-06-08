@@ -164,6 +164,15 @@ export default function Pathfinder() {
 		resetSearch();
 		setGridState({ ...gridState, searchSpeed: Number(val) });
 	};
+	const generateMaze = () => {
+		const elligibleCells = [];
+		for (let i = 1; i < NUM_ROWS; i += 2) {
+			for (let j = 1; j < NUM_COLS; j += 2) {
+				elligibleCells.push(String(i * NUM_COLS + j));
+			}
+		}
+		setNodeState({ ...nodeState, wallNodes: elligibleCells });
+	};
 	const nodes =
 		gridState.graph &&
 		Object.entries(gridState.graph.adjacencyList).map((el, i) => (
@@ -180,6 +189,7 @@ export default function Pathfinder() {
 				clickUp={clickUp}
 			/>
 		));
+
 	return (
 		<div className="Pathfinder">
 			<Navbar
@@ -190,6 +200,7 @@ export default function Pathfinder() {
 				resetSearch={resetSearch}
 				changeSpeed={changeSpeed}
 				changeAlgo={changeAlgo}
+				generateMaze={generateMaze}
 			></Navbar>
 			<main className="Pathfinder-body">
 				<div className="Pathfinder-grid">{nodes}</div>

@@ -10,6 +10,7 @@ export default function Navbar(props) {
 		resetSearch,
 		changeAlgo,
 		searchAlgo,
+		generateMaze,
 	} = props;
 	return (
 		<nav className="Navbar">
@@ -52,6 +53,9 @@ export default function Navbar(props) {
 				Run!
 			</button>
 			<div className="Navbarbutton-container">
+				<button className="Navbar-button" onClick={generateMaze}>
+					Generate Maze
+				</button>
 				<button className="Navbar-button" onClick={resetSearch}>
 					Reset Search
 				</button>
