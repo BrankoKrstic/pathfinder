@@ -40,6 +40,8 @@ export default function Pathfinder() {
 		setGridState({ ...gridState, graph: newGraph });
 	}, []);
 	const visualize = () => {
+		if (gridState.searching) return;
+		setGridState({ ...gridState, searching: true });
 		resetSearch();
 		let { visitedNodes, shortestPath } = search();
 		let visitedObj = {};
@@ -63,6 +65,9 @@ export default function Pathfinder() {
 				}, i * gridState.searchSpeed);
 			}
 		}
+		setTimeout(() => {
+			setGridState({ ...gridState, searching: true });
+		}, visitedNodes.length + shortestPath.length);
 	};
 	const clickDown = (val) => {
 		if (Object.values(searchState.visitedNodes).length > 0) return;
