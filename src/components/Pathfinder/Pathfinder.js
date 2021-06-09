@@ -9,7 +9,7 @@ const NUM_COLS = 101;
 export default function Pathfinder() {
 	const defaultNodeState = {
 		startNode: "410",
-		endNode: "3380",
+		endNode: "3420",
 		wallNodes: [],
 		movingStartNode: false,
 		movingEndNode: false,
@@ -23,6 +23,7 @@ export default function Pathfinder() {
 		graph: null,
 		searchSpeed: 20,
 		searchAlgo: "dijkstra",
+		searching: false,
 	});
 	const [nodeState, setNodeState] = useState(defaultNodeState);
 	useEffect(() => {
@@ -236,6 +237,11 @@ export default function Pathfinder() {
 		return maze;
 	};
 	const generateMaze = () => {
+		if (
+			gridState.searching ||
+			Object.values(searchState.visitedNodes).length > 0
+		)
+			return;
 		removeWalls();
 		const mazeCells = getMazeData();
 		const currMaze = [];
