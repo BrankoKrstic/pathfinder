@@ -172,7 +172,7 @@ export default function Pathfinder() {
 		resetSearch();
 		setGridState({ ...gridState, searchSpeed: Number(val) });
 	};
-	const generateMaze = () => {
+	const getMazeData = () => {
 		const maze = [];
 		let newCell;
 		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
@@ -233,7 +233,18 @@ export default function Pathfinder() {
 		if (maze.includes(nodeState.endNode)) {
 			maze.splice(maze.indexOf(nodeState.endNode), 1);
 		}
-		setNodeState({ ...nodeState, wallNodes: maze });
+		return maze;
+	};
+	const generateMaze = () => {
+		removeWalls();
+		const mazeCells = getMazeData();
+		const currMaze = [];
+		for (let i = 0; i < mazeCells.length; i++) {
+			setTimeout(() => {
+				currMaze.push(mazeCells[i]);
+				setNodeState({ ...nodeState, wallNodes: currMaze });
+			}, i);
+		}
 	};
 	const nodes =
 		gridState.graph &&
