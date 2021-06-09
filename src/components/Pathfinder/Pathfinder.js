@@ -256,7 +256,7 @@ export default function Pathfinder() {
 		for (let i = 0; i < mazeCells.length; i++) {
 			setTimeout(() => {
 				currMaze.push(mazeCells[i]);
-				if (i % 20 === 0) {
+				if (i % Math.floor(NUM_COLS / 2) === 0) {
 					setNodeState({ ...nodeState, wallNodes: currMaze });
 				}
 			}, i);
