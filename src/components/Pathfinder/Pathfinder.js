@@ -3,8 +3,8 @@ import { WeightedGraph } from "../../graph/graph";
 import Node from "../Node/Node";
 import "./Pathfinder.css";
 import Navbar from "../Navbar/Navbar";
-const NUM_ROWS = 40;
-const NUM_COLS = 100;
+const NUM_ROWS = 41;
+const NUM_COLS = 101;
 
 export default function Pathfinder() {
 	const defaultNodeState = {
@@ -181,7 +181,7 @@ export default function Pathfinder() {
 		}
 		const checkElligibility = (node, direction) => {
 			if (
-				(direction === "LEFT" && node % NUM_COLS === NUM_COLS - 2) ||
+				(direction === "LEFT" && node % NUM_COLS === NUM_COLS - 1) ||
 				(direction === "RIGHT" && node % NUM_COLS === 0)
 			)
 				return false;
@@ -226,7 +226,7 @@ export default function Pathfinder() {
 				}
 			}
 		};
-		recurMaze(0);
+		recurMaze(NUM_COLS + 1);
 		if (maze.includes(nodeState.startNode)) {
 			maze.splice(maze.indexOf(nodeState.startNode), 1);
 		}
