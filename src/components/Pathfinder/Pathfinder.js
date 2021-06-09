@@ -72,7 +72,7 @@ export default function Pathfinder() {
 			}
 		}
 		setTimeout(() => {
-			if (searchState.shortestPath.length > 0) {
+			if (shortestPath.length > 0) {
 				setSearchState({
 					shortestPath: shortestPathArr,
 					visitedNodes: visitedObj,
