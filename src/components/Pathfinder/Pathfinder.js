@@ -91,13 +91,16 @@ export default function Pathfinder() {
 		});
 	};
 	const resetSearch = () => {
+		if (gridState.searching) return;
 		setSearchState({ visitedNodes: {}, shortestPath: [] });
 	};
 	const reset = () => {
+		if (gridState.searching) return;
 		resetSearch();
 		setNodeState(defaultNodeState);
 	};
 	const removeWalls = () => {
+		if (gridState.searching) return;
 		setNodeState({ ...nodeState, wallNodes: [] });
 	};
 	const search = () => {
@@ -143,10 +146,10 @@ export default function Pathfinder() {
 		}
 	};
 	const changeAlgo = (val) => {
-		resetSearch();
 		setGridState({ ...gridState, searchAlgo: val });
 	};
 	const toggleWall = (node) => {
+		if (gridState.searching) return;
 		if (
 			nodeState.movingStartNode &&
 			node !== nodeState.endNode &&
@@ -175,7 +178,6 @@ export default function Pathfinder() {
 		setNodeState({ ...nodeState, wallNodes: newArr });
 	};
 	const changeSpeed = (val) => {
-		resetSearch();
 		setGridState({ ...gridState, searchSpeed: Number(val) });
 	};
 	const getMazeData = () => {
