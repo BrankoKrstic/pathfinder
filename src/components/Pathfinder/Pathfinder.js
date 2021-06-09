@@ -245,6 +245,7 @@ export default function Pathfinder() {
 		removeWalls();
 		const mazeCells = getMazeData();
 		const currMaze = [];
+		setGridState({ ...gridState, searching: true });
 		for (let i = 0; i < mazeCells.length; i++) {
 			setTimeout(() => {
 				currMaze.push(mazeCells[i]);
@@ -253,6 +254,9 @@ export default function Pathfinder() {
 				}
 			}, i);
 		}
+		setTimeout(() => {
+			setGridState({ ...gridState, searching: false });
+		}, mazeCells.length);
 	};
 	const nodes =
 		gridState.graph &&
