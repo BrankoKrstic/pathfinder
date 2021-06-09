@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { WeightedGraph } from "../../graph/graph";
 import Node from "../Node/Node";
+import PathfinderStats from "./PathfinderStats/PathfinderStats";
 import "./Pathfinder.css";
 import Navbar from "../Navbar/Navbar";
 const NUM_ROWS = 41;
@@ -307,16 +308,17 @@ export default function Pathfinder() {
 				changeSpeed={changeSpeed}
 				changeAlgo={changeAlgo}
 				generateMaze={generateMaze}
-			></Navbar>
+			/>
 			<main className="Pathfinder-body">
 				<div className="Pathfinder-grid">{nodes}</div>
 				{searchState.searchTime && (
-					<div className="Pathfinder-stats">
-						Nodes searched:{" "}
-						{Object.values(searchState.visitedNodes).length} Path
-						length: {searchState.shortestPath.length} Found end node
-						in: {searchState.searchTime.toFixed(2)}ms
-					</div>
+					<PathfinderStats
+						numVisitedNodes={
+							Object.values(searchState.visitedNodes).length
+						}
+						shortestPathLength={searchState.shortestPath.length}
+						searchTime={searchState.searchTime.toFixed(2)}
+					/>
 				)}
 			</main>
 		</div>

@@ -24,10 +24,3 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 }
-
-.Pathfinder-stats {
-	color: white;
-	font-size: 0.8rem;
-	align-self: baseline;
-	margin: 0 2rem;
-}
