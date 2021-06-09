@@ -242,7 +242,9 @@ export default function Pathfinder() {
 		for (let i = 0; i < mazeCells.length; i++) {
 			setTimeout(() => {
 				currMaze.push(mazeCells[i]);
-				setNodeState({ ...nodeState, wallNodes: currMaze });
+				if (i % 20 === 0) {
+					setNodeState({ ...nodeState, wallNodes: currMaze });
+				}
 			}, i);
 		}
 	};
