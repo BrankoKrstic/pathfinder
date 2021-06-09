@@ -18,6 +18,7 @@ export default function Pathfinder() {
 	const [searchState, setSearchState] = useState({
 		visitedNodes: {},
 		shortestPath: [],
+		searchTime: null,
 	});
 	const [gridState, setGridState] = useState({
 		graph: null,
@@ -40,10 +41,12 @@ export default function Pathfinder() {
 		setGridState({ ...gridState, graph: newGraph });
 	}, []);
 	const visualize = () => {
+		const t0 = performance.now();
 		if (gridState.searching) return;
 		setGridState({ ...gridState, searching: true });
 		resetSearch();
 		let { visitedNodes, shortestPath } = search();
+		const timeToExecute = performance.now() - t0;
 		let visitedObj = {};
 		let shortestPathArr = [];
 		for (let i = 0; i < visitedNodes.length + shortestPath.length; i++) {
@@ -51,6 +54,7 @@ export default function Pathfinder() {
 				setTimeout(() => {
 					visitedObj[visitedNodes[i]] = true;
 					setSearchState({
+						...searchState,
 						visitedNodes: visitedObj,
 						shortestPath: shortestPathArr,
 					});
@@ -59,6 +63,7 @@ export default function Pathfinder() {
 				setTimeout(() => {
 					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
 					setSearchState({
+						...searchState,
 						shortestPath: shortestPathArr,
 						visitedNodes: visitedObj,
 					});
@@ -66,8 +71,13 @@ export default function Pathfinder() {
 			}
 		}
 		setTimeout(() => {
+			setSearchState({
+				shortestPath: shortestPathArr,
+				visitedNodes: visitedObj,
+				searchTime: timeToExecute,
+			});
 			setGridState({ ...gridState, searching: false });
-		}, visitedNodes.length + shortestPath.length);
+		}, (visitedNodes.length + shortestPath.length) * gridState.searchSpeed);
 	};
 	const clickDown = (val) => {
 		if (Object.values(searchState.visitedNodes).length > 0) return;
@@ -92,7 +102,11 @@ export default function Pathfinder() {
 	};
 	const resetSearch = () => {
 		if (gridState.searching) return;
-		setSearchState({ visitedNodes: {}, shortestPath: [] });
+		setSearchState({
+			visitedNodes: {},
+			shortestPath: [],
+			searchTime: null,
+		});
 	};
 	const reset = () => {
 		if (gridState.searching) return;
@@ -296,6 +310,14 @@ export default function Pathfinder() {
 			></Navbar>
 			<main className="Pathfinder-body">
 				<div className="Pathfinder-grid">{nodes}</div>
+				{searchState.searchTime && (
+					<div className="Pathfinder-stats">
+						Nodes searched:{" "}
+						{Object.values(searchState.visitedNodes).length} Path
+						length: {searchState.shortestPath.length} Found end node
+						in: {searchState.searchTime.toFixed(2)}ms
+					</div>
+				)}
 			</main>
 		</div>
 	);
