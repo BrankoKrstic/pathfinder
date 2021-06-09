@@ -14,10 +14,10 @@ export default function Navbar(props) {
 	} = props;
 	return (
 		<nav className="Navbar">
-			<div className="Navbar-logo">Pathfinder</div>
-			<div>
+			<div className="Navbar-left">
+				<div className="Navbar-logo">Pathfinder</div>
 				<label className="Navbar-label" htmlFor="algo-select">
-					Change algorithm:
+					Algorithm:
 				</label>
 				<span className="Navbar-dropdown">
 					<select
@@ -32,10 +32,8 @@ export default function Navbar(props) {
 						<option value="GBS">Greedy Best-first Search</option>
 					</select>
 				</span>
-			</div>
-			<div>
 				<label className="Navbar-label" htmlFor="speed-select">
-					Change speed:
+					Speed:
 				</label>
 				<span className="Navbar-dropdown">
 					<select
