@@ -259,12 +259,9 @@ export default function Pathfinder() {
 		return maze;
 	};
 	const generateMaze = () => {
-		if (
-			gridState.searching ||
-			Object.values(searchState.visitedNodes).length > 0
-		)
-			return;
+		if (gridState.searching) return;
 		removeWalls();
+		resetSearch();
 		const mazeCells = getMazeData();
 		const currMaze = [];
 		setGridState({ ...gridState, searching: true });
