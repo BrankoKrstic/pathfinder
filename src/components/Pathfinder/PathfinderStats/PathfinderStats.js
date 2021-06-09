@@ -5,7 +5,7 @@ export default function PathfinderStats(props) {
 	return (
 		<div className="Pathfinderstats">
 			Nodes searched: {numVisitedNodes} Path length: {shortestPathLength}{" "}
-			Found end node in: {searchTime}ms
+			Found path in: {searchTime}ms
 		</div>
 	);
 }

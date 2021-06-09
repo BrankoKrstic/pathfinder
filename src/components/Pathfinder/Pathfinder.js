@@ -72,11 +72,13 @@ export default function Pathfinder() {
 			}
 		}
 		setTimeout(() => {
-			setSearchState({
-				shortestPath: shortestPathArr,
-				visitedNodes: visitedObj,
-				searchTime: timeToExecute,
-			});
+			if (searchState.shortestPath.length > 0) {
+				setSearchState({
+					shortestPath: shortestPathArr,
+					visitedNodes: visitedObj,
+					searchTime: timeToExecute,
+				});
+			}
 			setGridState({ ...gridState, searching: false });
 		}, (visitedNodes.length + shortestPath.length) * gridState.searchSpeed);
 	};
