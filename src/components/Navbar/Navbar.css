@@ -1,8 +1,8 @@
 .Navbar {
-	background-color: darkslategray;
+	background-color: #04213d;
 	width: 100%;
-	height: 4rem;
-	color: white;
+	height: 4.5rem;
+	color: #fff;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -22,7 +22,7 @@
 	font-size: 2.2rem;
 	font-weight: bold;
 	display: inline-block;
-	line-height: 4rem;
+	line-height: 4.5rem;
 	padding-left: 1rem;
 	letter-spacing: 1px;
 }
@@ -39,20 +39,23 @@
 .Start-button {
 	height: 80%;
 	outline: none;
-	background-color: rgb(231, 166, 0);
-	border: none;
+	background-color: transparent;
+	border: 2px solid #1abc9c;
 	justify-self: center;
 	align-self: center;
 	border-radius: 5%;
 	font-size: 1.5rem;
-	color: white;
+	color: #fff;
 	padding: 0 3rem;
 	cursor: pointer;
 	letter-spacing: 5px;
+	transition: all ease-in 0.2s;
 }
 
 .Start-button:hover {
-	background-color: darkgoldenrod;
+	border-color: #5cdb95;
+	transform: scale(1.02);
+	background-color: #5cdb9511;
 }
 
 .Navbar-button {
@@ -65,16 +68,17 @@
 	height: 100%;
 	font-size: 1.2rem;
 	font-weight: bold;
+	transition: all ease-in 0.2s;
 }
 
 .Navbar-button:hover {
-	background-color: #1abc9c;
+	color: #5cdb95;
 }
 
 .Navbar-label {
 	height: 100%;
 	font-size: 1rem;
-	line-height: 4rem;
+	line-height: 4.5rem;
 	font-weight: bold;
 	padding: 0 1rem;
 }
@@ -86,7 +90,7 @@
 }
 
 .Navbar-dropdown select {
-	background-color: #1abc9c;
+	background-color: #18967d;
 	color: #fff;
 	font-size: inherit;
 	padding: 0.7rem;
@@ -98,6 +102,11 @@
 	text-indent: 0.01px;
 	text-overflow: "";
 	-webkit-appearance: none; /* hide default arrow in chrome OSX */
+	transition: all ease-in 0.2s;
+}
+
+.Navbar-dropdown select:hover {
+	background-color: #34b66e;
 }
 
 .Navbar-dropdown::before,

@@ -66,7 +66,7 @@ export default function Pathfinder() {
 			}
 		}
 		setTimeout(() => {
-			setGridState({ ...gridState, searching: true });
+			setGridState({ ...gridState, searching: false });
 		}, visitedNodes.length + shortestPath.length);
 	};
 	const clickDown = (val) => {
