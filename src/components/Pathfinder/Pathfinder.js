@@ -8,13 +8,14 @@ import "./Pathfinder.css";
 import { WeightedGraph } from "../../graph/graph";
 
 import getSearchAlgo from "../../helpers/getSearchAlgo";
+import getNextMazeNode from "../../helpers/getNextMazeNode";
 
 const NUM_ROWS = 41;
 const NUM_COLS = 101;
 
 export default function Pathfinder() {
 	const defaultNodeState = {
-		startNode: "410",
+		startNode: "310",
 		endNode: "3420",
 		wallNodes: [],
 		movingStartNode: false,
@@ -50,8 +51,9 @@ export default function Pathfinder() {
 		setGridState({ ...gridState, graph: newGraph });
 	}, []);
 	const visualize = () => {
-		const t0 = performance.now();
+		// Don't initialize search if already pushing nodes or walls to state.
 		if (gridState.searching) return;
+		const t0 = performance.now();
 		setGridState({ ...gridState, searching: true });
 		let { visitedNodes, shortestPath } = getSearchAlgo(
 			gridState,
@@ -194,14 +196,7 @@ export default function Pathfinder() {
 			maze.push(newCell);
 		}
 		// Prevent maze paths from going through grid boundaries or checking the same node twice.
-		const checkElligibility = (node, direction) => {
-			if (
-				(direction === "LEFT" && node % NUM_COLS === NUM_COLS - 1) ||
-				(direction === "RIGHT" && node % NUM_COLS === 0)
-			)
-				return false;
-			return maze.includes(node);
-		};
+
 		// Recursive function that starts in corner of the maze, skips two nodes in any direction, and creates a path between the nodes if the found node is not already checked.
 		// If all options are exhausted, the recursion brings it back to the last node with adjacent nodes to jump to until there are no elligible nodes left.
 		const recurMaze = (currNode) => {
@@ -212,31 +207,12 @@ export default function Pathfinder() {
 				randDirection = Math.floor(Math.random() * moves.length);
 				move = moves[randDirection];
 				moves.splice(randDirection, 1);
-				switch (move) {
-					case "LEFT":
-						nextNode = currNode - 2;
-						betweenNode = currNode - 1;
-						elligible = checkElligibility(String(nextNode), move);
-						break;
-					case "RIGHT":
-						nextNode = currNode + 2;
-						betweenNode = currNode + 1;
-						elligible = checkElligibility(String(nextNode), move);
-						break;
-					case "UP":
-						nextNode = currNode - NUM_COLS * 2;
-						betweenNode = currNode - NUM_COLS;
-						elligible = checkElligibility(String(nextNode), move);
-						break;
-					case "DOWN":
-						nextNode = currNode + NUM_COLS * 2;
-						betweenNode = currNode + NUM_COLS;
-						elligible = checkElligibility(String(nextNode), move);
-						break;
-					default:
-						nextNode = null;
-						elligible = false;
-				}
+				[nextNode, betweenNode, elligible] = getNextMazeNode(
+					move,
+					currNode,
+					NUM_COLS,
+					maze
+				);
 				if (elligible) {
 					maze.splice(maze.indexOf(String(betweenNode)), 1);
 					recurMaze(nextNode);
@@ -245,7 +221,7 @@ export default function Pathfinder() {
 		};
 		// Best to start at NUM_COLS + 1 at a maze with an odd number of rows and cols to make all the sides of the maze a wall. If maze starts has even rows/cols, can start at NUM_COLS + 1 or just 0.
 		recurMaze(NUM_COLS + 1);
-		// Remove a the start and end node locations from the generated maze. (TODO: There is a slight chance that a start/end node will end up at the intersection of walls rendering the maze unsolvable)
+		// Remove a the start and end node locations from the generated maze. (TODO: There is a slight chance that a start/end node will end up at the intersection of walls if set on specific nodes rendering the maze unsolvable)
 		if (maze.includes(nodeState.startNode)) {
 			maze.splice(maze.indexOf(nodeState.startNode), 1);
 		}
