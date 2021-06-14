@@ -31,12 +31,11 @@ function Node(props) {
 		}
 		return nodeClass;
 	};
-	const classes = getClass();
 	const background = (start && `url(${startBg})`) || (end && `url(${endBg})`);
 	return (
 		<div
 			style={{ backgroundImage: background }}
-			className={classes}
+			className={getClass()}
 			onMouseEnter={() => toggleNodeFunction(location)}
 			onMouseDown={() => clickDown(location)}
 			onMouseUp={() => clickUp(location)}
