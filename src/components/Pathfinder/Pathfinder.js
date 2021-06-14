@@ -15,7 +15,7 @@ const NUM_COLS = 101;
 
 export default function Pathfinder() {
 	const defaultNodeState = {
-		startNode: "310",
+		startNode: "512",
 		endNode: "3420",
 		wallNodes: [],
 		movingStartNode: false,
@@ -195,14 +195,13 @@ export default function Pathfinder() {
 			newCell = String(i);
 			maze.push(newCell);
 		}
-		// Prevent maze paths from going through grid boundaries or checking the same node twice.
-
 		// Recursive function that starts in corner of the maze, skips two nodes in any direction, and creates a path between the nodes if the found node is not already checked.
 		// If all options are exhausted, the recursion brings it back to the last node with adjacent nodes to jump to until there are no elligible nodes left.
 		const recurMaze = (currNode) => {
 			maze.splice(maze.indexOf(String(currNode)), 1);
 			let moves = ["LEFT", "DOWN", "UP", "RIGHT"];
 			let nextNode, randDirection, elligible, move, betweenNode;
+			// Checks if the function can find a path for the maze in a random direction
 			while (moves.length > 0) {
 				randDirection = Math.floor(Math.random() * moves.length);
 				move = moves[randDirection];

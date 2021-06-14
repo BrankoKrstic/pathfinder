@@ -1,3 +1,4 @@
+// Prevent maze paths from going through grid boundaries or checking the same node twice.
 const checkElligibility = (node, direction, NUM_COLS, maze) => {
 	if (
 		(direction === "LEFT" && node % NUM_COLS === NUM_COLS - 1) ||
@@ -7,6 +8,7 @@ const checkElligibility = (node, direction, NUM_COLS, maze) => {
 	return maze.includes(node);
 };
 
+// Check if the maze generation algo has an unexplored path in a given direction
 const getNextMazeNode = (move, currNode, NUM_COLS, maze) => {
 	let nextNode, betweenNode, elligible;
 	switch (move) {
