@@ -7,17 +7,31 @@ function Node(props) {
 	const {
 		start,
 		end,
-		visited,
 		wall,
 		final,
+		visited,
 		toggleNodeFunction,
 		location,
 		clickDown,
 		clickUp,
 	} = props;
-	const classes = `Node ${wall && "Node-wall"} ${visited && "Node-visited"} ${
-		start && "Node-start"
-	} ${end && "Node-end"}  ${final && "Node-shortest-path"}`;
+	const getClass = () => {
+		let nodeClass = "Node";
+		if (start) {
+			nodeClass = nodeClass + " Node-start";
+		} else if (end) {
+			nodeClass = nodeClass + " Node-end";
+		} else if (wall) {
+			nodeClass = nodeClass + " Node-wall";
+		}
+		if (final) {
+			nodeClass = nodeClass + " Node-shortest-path";
+		} else if (visited) {
+			nodeClass = nodeClass + " Node-visited";
+		}
+		return nodeClass;
+	};
+	const classes = getClass();
 	const background = (start && `url(${startBg})`) || (end && `url(${endBg})`);
 	return (
 		<div
