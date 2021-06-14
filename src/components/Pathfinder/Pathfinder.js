@@ -4,6 +4,7 @@ import Node from "../Node/Node";
 import PathfinderStats from "./PathfinderStats/PathfinderStats";
 import "./Pathfinder.css";
 import Navbar from "../Navbar/Navbar";
+import getSearchAlgo from "../../helpers/getSearchAlgo";
 const NUM_ROWS = 41;
 const NUM_COLS = 101;
 
@@ -46,7 +47,11 @@ export default function Pathfinder() {
 		if (gridState.searching) return;
 		setGridState({ ...gridState, searching: true });
 		resetSearch();
-		let { visitedNodes, shortestPath } = search();
+		let { visitedNodes, shortestPath } = getSearchAlgo(
+			gridState,
+			nodeState,
+			NUM_COLS
+		);
 		const timeToExecute = performance.now() - t0;
 		let visitedObj = {};
 		let shortestPathArr = [];
@@ -124,48 +129,7 @@ export default function Pathfinder() {
 		if (gridState.searching) return;
 		setNodeState({ ...nodeState, wallNodes: [] });
 	};
-	const search = () => {
-		switch (gridState.searchAlgo) {
-			case "dijkstra":
-				return gridState.graph.dijkstra(
-					nodeState.startNode,
-					nodeState.endNode,
-					nodeState.wallNodes
-				);
-			case "aStar":
-				return gridState.graph.aStar(
-					nodeState.startNode,
-					nodeState.endNode,
-					NUM_COLS,
-					nodeState.wallNodes
-				);
-			case "BFS":
-				return gridState.graph.BFS(
-					nodeState.startNode,
-					nodeState.endNode,
-					nodeState.wallNodes
-				);
-			case "DFS":
-				return gridState.graph.DFS(
-					nodeState.startNode,
-					nodeState.endNode,
-					nodeState.wallNodes
-				);
-			case "GBS":
-				return gridState.graph.GBS(
-					nodeState.startNode,
-					nodeState.endNode,
-					NUM_COLS,
-					nodeState.wallNodes
-				);
-			default:
-				return gridState.graph.dijkstra(
-					nodeState.startNode,
-					nodeState.endNode,
-					nodeState.wallNodes
-				);
-		}
-	};
+
 	const changeAlgo = (val) => {
 		setGridState({ ...gridState, searchAlgo: val });
 	};
