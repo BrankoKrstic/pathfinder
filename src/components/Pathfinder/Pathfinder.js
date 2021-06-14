@@ -92,7 +92,11 @@ export default function Pathfinder() {
 		} else if (val === nodeState.endNode) {
 			setNodeState({ ...nodeState, movingEndNode: true });
 		} else {
-			setNodeState({ ...nodeState, mousePressed: true });
+			setNodeState({
+				...nodeState,
+				wallNodes: nodeState.wallNodes.concat(val),
+				mousePressed: true,
+			});
 		}
 	};
 	const clickUp = () => {
