@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
-import { WeightedGraph } from "../../graph/graph";
+
+import Navbar from "../Navbar/Navbar";
 import Node from "../Node/Node";
 import PathfinderStats from "./PathfinderStats/PathfinderStats";
 import "./Pathfinder.css";
-import Navbar from "../Navbar/Navbar";
+
+import { WeightedGraph } from "../../graph/graph";
+
 import getSearchAlgo from "../../helpers/getSearchAlgo";
+
 const NUM_ROWS = 41;
 const NUM_COLS = 101;
 
@@ -29,10 +33,13 @@ export default function Pathfinder() {
 		searching: false,
 	});
 	const [nodeState, setNodeState] = useState(defaultNodeState);
+	// Set initial grid and graph data
 	useEffect(() => {
 		const newGraph = new WeightedGraph();
 		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
+			// Graph only accepts strings as vertex name. Using the index of each graph as its name.
 			newGraph.addVertex(String(i));
+			// Create edges between adjacent vertices
 			if (i % NUM_COLS > 0) {
 				newGraph.addEdge(String(i), String(i - 1), 1);
 			}
@@ -46,15 +53,17 @@ export default function Pathfinder() {
 		const t0 = performance.now();
 		if (gridState.searching) return;
 		setGridState({ ...gridState, searching: true });
-		resetSearch();
 		let { visitedNodes, shortestPath } = getSearchAlgo(
 			gridState,
 			nodeState,
 			NUM_COLS
 		);
+		//calc how long the algorithm took to execute
 		const timeToExecute = performance.now() - t0;
+		resetSearch();
 		let visitedObj = {};
 		let shortestPathArr = [];
+		// Iterate through all found nodes and the shortest path (if found) and animate them individually
 		for (let i = 0; i < visitedNodes.length + shortestPath.length; i++) {
 			if (i < visitedNodes.length) {
 				setTimeout(() => {
@@ -76,6 +85,7 @@ export default function Pathfinder() {
 				}, i * gridState.searchSpeed);
 			}
 		}
+		// If shorest path found, push search stats to state once the animations are done
 		setTimeout(() => {
 			if (shortestPath.length > 0) {
 				setSearchState({
@@ -87,7 +97,9 @@ export default function Pathfinder() {
 			setGridState({ ...gridState, searching: false });
 		}, (visitedNodes.length + shortestPath.length) * gridState.searchSpeed);
 	};
+	// Function checks where the user clicked and either starts drawing a wall or moving start/end node
 	const clickDown = (val) => {
+		// Don't allow changing the grid before resetting search data
 		if (Object.values(searchState.visitedNodes).length > 0) return;
 		if (val === nodeState.startNode) {
 			setNodeState({
@@ -104,6 +116,7 @@ export default function Pathfinder() {
 			});
 		}
 	};
+	// Stop changing the grid on click up
 	const clickUp = () => {
 		setNodeState({
 			...nodeState,
@@ -113,6 +126,7 @@ export default function Pathfinder() {
 		});
 	};
 	const resetSearch = () => {
+		// Prevent resetting search state when in middle of a search
 		if (gridState.searching) return;
 		setSearchState({
 			visitedNodes: {},
@@ -123,6 +137,7 @@ export default function Pathfinder() {
 	const reset = () => {
 		if (gridState.searching) return;
 		resetSearch();
+		// Remove any walls and return start/end nodes to initial position
 		setNodeState(defaultNodeState);
 	};
 	const removeWalls = () => {
@@ -133,8 +148,13 @@ export default function Pathfinder() {
 	const changeAlgo = (val) => {
 		setGridState({ ...gridState, searchAlgo: val });
 	};
-	const toggleWall = (node) => {
+	const changeSpeed = (val) => {
+		setGridState({ ...gridState, searchSpeed: Number(val) });
+	};
+	// Function to toggle a node to/from being a wall or move the start/end node to current mouse position, depending on state
+	const toggleNodeFunction = (node) => {
 		if (gridState.searching) return;
+		// Functions to move start/end node
 		if (
 			nodeState.movingStartNode &&
 			node !== nodeState.endNode &&
@@ -147,12 +167,14 @@ export default function Pathfinder() {
 			!nodeState.wallNodes.includes(node)
 		)
 			return setNodeState({ ...nodeState, endNode: node });
+		// Does nothing if attempting to put something over the current start/end node
 		if (
 			!nodeState.mousePressed ||
 			node === nodeState.startNode ||
 			node === nodeState.endNode
 		)
 			return;
+		// Remove node from wall state if already in wallNodes array. If not, push it to wall nodes.
 		let nodeIndex = nodeState.wallNodes.indexOf(node);
 		let newArr = [...nodeState.wallNodes];
 		if (nodeIndex >= 0) {
@@ -162,16 +184,16 @@ export default function Pathfinder() {
 		}
 		setNodeState({ ...nodeState, wallNodes: newArr });
 	};
-	const changeSpeed = (val) => {
-		setGridState({ ...gridState, searchSpeed: Number(val) });
-	};
+	// Function to generate random maze.
 	const getMazeData = () => {
 		const maze = [];
 		let newCell;
+		// All nodes start as a wall and then the maze gets carved out
 		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
 			newCell = String(i);
 			maze.push(newCell);
 		}
+		// Prevent maze paths from going through grid boundaries or checking the same node twice.
 		const checkElligibility = (node, direction) => {
 			if (
 				(direction === "LEFT" && node % NUM_COLS === NUM_COLS - 1) ||
@@ -180,6 +202,8 @@ export default function Pathfinder() {
 				return false;
 			return maze.includes(node);
 		};
+		// Recursive function that starts in corner of the maze, skips two nodes in any direction, and creates a path between the nodes if the found node is not already checked.
+		// If all options are exhausted, the recursion brings it back to the last node with adjacent nodes to jump to until there are no elligible nodes left.
 		const recurMaze = (currNode) => {
 			maze.splice(maze.indexOf(String(currNode)), 1);
 			let moves = ["LEFT", "DOWN", "UP", "RIGHT"];
@@ -219,7 +243,9 @@ export default function Pathfinder() {
 				}
 			}
 		};
+		// Best to start at NUM_COLS + 1 at a maze with an odd number of rows and cols to make all the sides of the maze a wall. If maze starts has even rows/cols, can start at NUM_COLS + 1 or just 0.
 		recurMaze(NUM_COLS + 1);
+		// Remove a the start and end node locations from the generated maze. (TODO: There is a slight chance that a start/end node will end up at the intersection of walls rendering the maze unsolvable)
 		if (maze.includes(nodeState.startNode)) {
 			maze.splice(maze.indexOf(nodeState.startNode), 1);
 		}
@@ -230,14 +256,17 @@ export default function Pathfinder() {
 	};
 	const generateMaze = () => {
 		if (gridState.searching) return;
+		// Remove all walls and search paths, but leave start/end nodes at the same position
 		removeWalls();
 		resetSearch();
 		const mazeCells = getMazeData();
 		const currMaze = [];
 		setGridState({ ...gridState, searching: true });
+		// Gradually push generated walls to state.
 		for (let i = 0; i < mazeCells.length; i++) {
 			setTimeout(() => {
 				currMaze.push(mazeCells[i]);
+				// Push rougly one row of wall cells at a time
 				if (i % Math.floor(NUM_COLS / 2) === 0) {
 					setNodeState({ ...nodeState, wallNodes: currMaze });
 				}
@@ -258,7 +287,7 @@ export default function Pathfinder() {
 				visited={searchState.visitedNodes[String(i)]}
 				final={searchState.shortestPath.includes(String(i))}
 				wall={nodeState.wallNodes.includes(String(i))}
-				toggleWall={toggleWall}
+				toggleNodeFunction={toggleNodeFunction}
 				clickDown={clickDown}
 				clickUp={clickUp}
 			/>

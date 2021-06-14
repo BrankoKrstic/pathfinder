@@ -10,7 +10,7 @@ function Node(props) {
 		visited,
 		wall,
 		final,
-		toggleWall,
+		toggleNodeFunction,
 		location,
 		clickDown,
 		clickUp,
@@ -23,7 +23,7 @@ function Node(props) {
 		<div
 			style={{ backgroundImage: background }}
 			className={classes}
-			onMouseEnter={() => toggleWall(location)}
+			onMouseEnter={() => toggleNodeFunction(location)}
 			onMouseDown={() => clickDown(location)}
 			onMouseUp={() => clickUp(location)}
 		></div>
