@@ -124,18 +124,14 @@ export default function Pathfinder() {
 		)
 			return;
 		// Functions to move start/end node
-		if (
-			nodeState.movingStartNode &&
-			node !== nodeState.endNode &&
-			!nodeState.wallNodes.includes(node)
-		)
+		if (nodeState.movingStartNode) {
+			if (nodeState.wallNodes.includes(node)) return;
 			return setNodeState({ ...nodeState, startNode: node });
-		if (
-			nodeState.movingEndNode &&
-			node !== nodeState.startNode &&
-			!nodeState.wallNodes.includes(node)
-		)
+		}
+		if (nodeState.movingEndNode) {
+			if (nodeState.wallNodes.includes(node)) return;
 			return setNodeState({ ...nodeState, endNode: node });
+		}
 		// Remove node from wall state if already in wallNodes array. If not, push it to wall nodes.
 		let nodeIndex = nodeState.wallNodes.indexOf(node);
 		let newArr = [...nodeState.wallNodes];
@@ -159,7 +155,7 @@ export default function Pathfinder() {
 	const reset = () => {
 		if (!gridState.searching) {
 			resetSearch();
-			// Remove any walls and return start/end nodes to initial position
+			// Remove any walls and return start/end nodes to initial positions
 			setNodeState(defaultNodeState);
 		}
 	};
@@ -174,7 +170,6 @@ export default function Pathfinder() {
 	const changeSpeed = (val) => {
 		setGridState({ ...gridState, searchSpeed: Number(val) });
 	};
-
 	// Function to generate random maze.
 	const getMazeData = () => {
 		const maze = [];
