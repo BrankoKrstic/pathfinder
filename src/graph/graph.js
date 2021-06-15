@@ -42,14 +42,14 @@ export class WeightedGraph {
 		}
 		while (q.values.length > 0) {
 			let { val, priority } = q.dequeue();
+			if (!visitedNodes.includes(val)) {
+				visitedNodes.push(val);
+			}
 			if (val === vEnd) {
 				shortestPath = this.getShortestPath(previous, val, vStart);
 				break;
 			}
 			if (distances[val] !== Infinity) {
-				if (!visitedNodes.includes(val)) {
-					visitedNodes.push(val);
-				}
 				this.adjacencyList[val].forEach((edge) => {
 					let newDist = priority + edge.weight;
 					if (
@@ -83,14 +83,14 @@ export class WeightedGraph {
 		}
 		while (q.values.length > 0) {
 			let { val } = q.dequeue();
+			if (!visitedNodes.includes(val)) {
+				visitedNodes.push(val);
+			}
 			if (val === vEnd) {
 				shortestPath = this.getShortestPath(previous, val, vStart);
 				break;
 			}
 			if (distances[val] !== Infinity) {
-				if (!visitedNodes.includes(val)) {
-					visitedNodes.push(val);
-				}
 				this.adjacencyList[val].forEach((edge) => {
 					let heuristicScore = calcHeuristic(
 						vEnd,
@@ -173,11 +173,11 @@ export class WeightedGraph {
 		stack.push(vStart);
 		while (stack.size && !visitedNodes.includes(vEnd)) {
 			let { val } = stack.pop();
+			visitedNodes.push(val);
 			if (val === vEnd) {
 				shortestPath = this.getShortestPath(previous, val, vStart);
 				break;
 			}
-			visitedNodes.push(val);
 			this.adjacencyList[val].forEach((edge) => {
 				if (
 					!visitedNodes.includes(edge.node) &&
@@ -200,12 +200,12 @@ export class WeightedGraph {
 		q.enqueue(vStart, 1);
 		while (q.values.length > 0) {
 			let { val } = q.dequeue();
+			if (visitedNodes.includes(val)) continue;
+			visitedNodes.push(val);
 			if (val === vEnd) {
 				shortestPath = this.getShortestPath(previous, val, vStart);
 				break;
 			}
-			if (visitedNodes.includes(val)) continue;
-			visitedNodes.push(val);
 			this.adjacencyList[val].forEach((edge) => {
 				let heuristicScore = calcHeuristic(vEnd, edge.node, numCols);
 				if (

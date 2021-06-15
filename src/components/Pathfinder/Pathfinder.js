@@ -68,7 +68,7 @@ export default function Pathfinder() {
 				});
 			}, i * gridState.searchSpeed);
 		}
-		// If shorest path found, push search stats to state once the animations are done
+		// Finish animating and push search stats to state, if shortest path found
 		setTimeout(() => {
 			setGridState({ ...gridState, searching: false });
 			if (shortestPath.length > 0) {
@@ -87,10 +87,15 @@ export default function Pathfinder() {
 		if (val === nodeState.startNode) {
 			setNodeState({
 				...nodeState,
+				mousePressed: true,
 				movingStartNode: true,
 			});
 		} else if (val === nodeState.endNode) {
-			setNodeState({ ...nodeState, movingEndNode: true });
+			setNodeState({
+				...nodeState,
+				mousePressed: true,
+				movingEndNode: true,
+			});
 		} else {
 			setNodeState({
 				...nodeState,
@@ -107,6 +112,38 @@ export default function Pathfinder() {
 			movingEndNode: false,
 			mousePressed: false,
 		});
+	};
+	// Function to toggle a node to/from being a wall or move the start/end node to current mouse position
+	const toggleNodeFunction = (node) => {
+		if (
+			gridState.searching ||
+			!nodeState.mousePressed ||
+			node === nodeState.startNode ||
+			node === nodeState.endNode
+		)
+			return;
+		// Functions to move start/end node
+		if (
+			nodeState.movingStartNode &&
+			node !== nodeState.endNode &&
+			!nodeState.wallNodes.includes(node)
+		)
+			return setNodeState({ ...nodeState, startNode: node });
+		if (
+			nodeState.movingEndNode &&
+			node !== nodeState.startNode &&
+			!nodeState.wallNodes.includes(node)
+		)
+			return setNodeState({ ...nodeState, endNode: node });
+		// Remove node from wall state if already in wallNodes array. If not, push it to wall nodes.
+		let nodeIndex = nodeState.wallNodes.indexOf(node);
+		let newArr = [...nodeState.wallNodes];
+		if (nodeIndex >= 0) {
+			newArr.splice(nodeIndex, 1);
+		} else {
+			newArr.push(node);
+		}
+		setNodeState({ ...nodeState, wallNodes: newArr });
 	};
 	const resetSearch = () => {
 		// Prevent resetting search state when in middle of a search
@@ -130,46 +167,13 @@ export default function Pathfinder() {
 			setNodeState({ ...nodeState, wallNodes: [] });
 		}
 	};
-
 	const changeAlgo = (val) => {
 		setGridState({ ...gridState, searchAlgo: val });
 	};
 	const changeSpeed = (val) => {
 		setGridState({ ...gridState, searchSpeed: Number(val) });
 	};
-	// Function to toggle a node to/from being a wall or move the start/end node to current mouse position, depending on state
-	const toggleNodeFunction = (node) => {
-		if (gridState.searching) return;
-		// Functions to move start/end node
-		if (
-			nodeState.movingStartNode &&
-			node !== nodeState.endNode &&
-			!nodeState.wallNodes.includes(node)
-		)
-			return setNodeState({ ...nodeState, startNode: node });
-		if (
-			nodeState.movingEndNode &&
-			node !== nodeState.startNode &&
-			!nodeState.wallNodes.includes(node)
-		)
-			return setNodeState({ ...nodeState, endNode: node });
-		// Does nothing if attempting to put something over the current start/end node
-		if (
-			!nodeState.mousePressed ||
-			node === nodeState.startNode ||
-			node === nodeState.endNode
-		)
-			return;
-		// Remove node from wall state if already in wallNodes array. If not, push it to wall nodes.
-		let nodeIndex = nodeState.wallNodes.indexOf(node);
-		let newArr = [...nodeState.wallNodes];
-		if (nodeIndex >= 0) {
-			newArr.splice(nodeIndex, 1);
-		} else {
-			newArr.push(node);
-		}
-		setNodeState({ ...nodeState, wallNodes: newArr });
-	};
+
 	// Function to generate random maze.
 	const getMazeData = () => {
 		const maze = [];
