@@ -17,13 +17,14 @@ export class WeightedGraph {
 		this.adjacencyList[v1].push({ node: v2, weight });
 		this.adjacencyList[v2].push({ node: v1, weight });
 	}
-	getShortestPath(previousList, currVal) {
+	// accepts list of previous nodes and the last value and backtracks through the list to find the shortest route
+	getShortestPath(previousList, currVal, startNodeVal) {
 		const shortestPath = [];
 		while (previousList[currVal]) {
 			shortestPath.push(currVal);
 			currVal = previousList[currVal];
 		}
-		return shortestPath;
+		return shortestPath.concat(startNodeVal).reverse();
 	}
 	dijkstra(vStart, vEnd, wallNodes = []) {
 		const distances = {},
@@ -42,7 +43,7 @@ export class WeightedGraph {
 		while (q.values.length > 0) {
 			let { val, priority } = q.dequeue();
 			if (val === vEnd) {
-				shortestPath = this.getShortestPath(previous, val);
+				shortestPath = this.getShortestPath(previous, val, vStart);
 				break;
 			}
 			if (distances[val] !== Infinity) {
@@ -64,9 +65,6 @@ export class WeightedGraph {
 				break;
 			}
 		}
-		if (shortestPath.length > 0) {
-			shortestPath = shortestPath.concat(vStart).reverse();
-		}
 		return { visitedNodes, shortestPath };
 	}
 	aStar(vStart, vEnd, numCols, wallNodes = []) {
@@ -86,7 +84,7 @@ export class WeightedGraph {
 		while (q.values.length > 0) {
 			let { val } = q.dequeue();
 			if (val === vEnd) {
-				shortestPath = this.getShortestPath(previous, val);
+				shortestPath = this.getShortestPath(previous, val, vStart);
 				break;
 			}
 			if (distances[val] !== Infinity) {
@@ -113,9 +111,6 @@ export class WeightedGraph {
 				break;
 			}
 		}
-		if (shortestPath.length > 0) {
-			shortestPath = shortestPath.concat(vStart).reverse();
-		}
 		return { visitedNodes, shortestPath };
 	}
 	BFS(vStart, vEnd, wallNodes = []) {
@@ -129,7 +124,7 @@ export class WeightedGraph {
 			let { val } = q.dequeue();
 			visitedNodes.push(val);
 			if (val === vEnd) {
-				shortestPath = this.getShortestPath(previous, val);
+				shortestPath = this.getShortestPath(previous, val, vStart);
 				break;
 			}
 			priority++;
@@ -144,9 +139,6 @@ export class WeightedGraph {
 					q.enqueue(edge.node, priority);
 				}
 			});
-		}
-		if (shortestPath.length > 0) {
-			shortestPath = shortestPath.concat(vStart).reverse();
 		}
 		return { visitedNodes, shortestPath };
 	}
@@ -182,7 +174,7 @@ export class WeightedGraph {
 		while (stack.size && !visitedNodes.includes(vEnd)) {
 			let { val } = stack.pop();
 			if (val === vEnd) {
-				shortestPath = this.getShortestPath(previous, val);
+				shortestPath = this.getShortestPath(previous, val, vStart);
 				break;
 			}
 			visitedNodes.push(val);
@@ -197,13 +189,7 @@ export class WeightedGraph {
 				}
 			});
 		}
-		if (shortestPath.length > 0) {
-			shortestPath = shortestPath.concat(vStart).reverse();
-		}
-		return {
-			visitedNodes,
-			shortestPath,
-		};
+		return { visitedNodes, shortestPath };
 	}
 	//Greedy Best-first Search
 	GBS(vStart, vEnd, numCols, wallNodes = []) {
@@ -215,10 +201,7 @@ export class WeightedGraph {
 		while (q.values.length > 0) {
 			let { val } = q.dequeue();
 			if (val === vEnd) {
-				while (previous[val]) {
-					shortestPath.push(val);
-					val = previous[val];
-				}
+				shortestPath = this.getShortestPath(previous, val, vStart);
 				break;
 			}
 			if (visitedNodes.includes(val)) continue;
@@ -233,9 +216,6 @@ export class WeightedGraph {
 					q.enqueue(edge.node, heuristicScore);
 				}
 			});
-		}
-		if (shortestPath.length > 0) {
-			shortestPath = shortestPath.concat(vStart).reverse();
 		}
 		return { visitedNodes, shortestPath };
 	}

@@ -131,22 +131,25 @@ export default function Pathfinder() {
 	};
 	const resetSearch = () => {
 		// Prevent resetting search state when in middle of a search
-		if (gridState.searching) return;
-		setSearchState({
-			visitedNodes: {},
-			shortestPath: [],
-			searchTime: null,
-		});
+		if (!gridState.searching) {
+			setSearchState({
+				visitedNodes: {},
+				shortestPath: [],
+				searchTime: null,
+			});
+		}
 	};
 	const reset = () => {
-		if (gridState.searching) return;
-		resetSearch();
-		// Remove any walls and return start/end nodes to initial position
-		setNodeState(defaultNodeState);
+		if (!gridState.searching) {
+			resetSearch();
+			// Remove any walls and return start/end nodes to initial position
+			setNodeState(defaultNodeState);
+		}
 	};
 	const removeWalls = () => {
-		if (gridState.searching) return;
-		setNodeState({ ...nodeState, wallNodes: [] });
+		if (!gridState.searching) {
+			setNodeState({ ...nodeState, wallNodes: [] });
+		}
 	};
 
 	const changeAlgo = (val) => {
@@ -197,13 +200,12 @@ export default function Pathfinder() {
 			newCell = String(i);
 			maze.push(newCell);
 		}
-		// Recursive function that starts in corner of the maze, skips two nodes in any direction, and creates a path between the nodes if the found node is not already checked.
-		// If all options are exhausted, the recursion brings it back to the last node with adjacent nodes to jump to until there are no elligible nodes left.
+		// Recursive function that starts at a specific node, skips two nodes in any direction, and creates a path between the nodes if the found node is not already checked.
 		const recurMaze = (currNode) => {
 			maze.splice(maze.indexOf(String(currNode)), 1);
 			let moves = ["LEFT", "DOWN", "UP", "RIGHT"];
 			let nextNode, randDirection, elligible, move, betweenNode;
-			// Checks if the function can find a path for the maze in a random direction
+			// Checks all directions in a random order for a posslbe path
 			while (moves.length > 0) {
 				randDirection = Math.floor(Math.random() * moves.length);
 				move = moves[randDirection];
@@ -233,13 +235,10 @@ export default function Pathfinder() {
 	};
 	const generateMaze = () => {
 		if (gridState.searching) return;
-		// Remove all walls and search paths, but leave start/end nodes at the same position
-		removeWalls();
 		resetSearch();
 		const mazeCells = getMazeData();
 		const currMaze = [];
 		setGridState({ ...gridState, searching: true });
-		// Gradually push generated walls to state.
 		for (let i = 0; i < mazeCells.length; i++) {
 			setTimeout(() => {
 				currMaze.push(mazeCells[i]);
