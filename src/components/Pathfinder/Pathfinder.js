@@ -63,6 +63,7 @@ export default function Pathfinder() {
 				}
 				setSearchState({
 					...searchState,
+					searchTime: null,
 					visitedNodes: visitedObj,
 					shortestPath: shortestPathArr,
 				});
