@@ -88,25 +88,24 @@ export default function Pathfinder() {
 	const clickDown = (val) => {
 		// Don't allow changing the grid before resetting search data
 		if (Object.values(searchState.visitedNodes).length > 0) return;
+		let movingStartNode, movingEndNode;
+		let wallNodes = [...nodeState.wallNodes];
 		if (val === nodeState.startNode) {
-			setNodeState({
-				...nodeState,
-				mousePressed: true,
-				movingStartNode: true,
-			});
+			movingStartNode = true;
 		} else if (val === nodeState.endNode) {
-			setNodeState({
-				...nodeState,
-				mousePressed: true,
-				movingEndNode: true,
-			});
+			movingEndNode = true;
+		} else if (wallNodes.indexOf(val) >= 0) {
+			wallNodes.splice(wallNodes.indexOf(val), 1);
 		} else {
-			setNodeState({
-				...nodeState,
-				wallNodes: nodeState.wallNodes.concat(val),
-				mousePressed: true,
-			});
+			wallNodes = wallNodes.concat(val);
 		}
+		setNodeState({
+			...nodeState,
+			wallNodes,
+			movingStartNode,
+			movingEndNode,
+			mousePressed: true,
+		});
 	};
 	// Stop changing the grid on click up
 	const clickUp = () => {
