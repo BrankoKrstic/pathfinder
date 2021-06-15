@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import Navbar from "../Navbar/Navbar";
-import Node from "../Node/Node";
+import Grid from "./Grid/Grid";
 import PathfinderStats from "./PathfinderStats/PathfinderStats";
 import "./Pathfinder.css";
 
@@ -240,23 +240,6 @@ export default function Pathfinder() {
 			setGridState({ ...gridState, searching: false });
 		}, mazeCells.length);
 	};
-	const nodes =
-		gridState.graph &&
-		Object.entries(gridState.graph.adjacencyList).map((el, i) => (
-			<Node
-				key={i}
-				location={String(i)}
-				start={String(i) === nodeState.startNode}
-				end={String(i) === nodeState.endNode}
-				visited={searchState.visitedNodes[String(i)]}
-				final={searchState.shortestPath.includes(String(i))}
-				wall={nodeState.wallNodes.includes(String(i))}
-				toggleNodeFunction={toggleNodeFunction}
-				clickDown={clickDown}
-				clickUp={clickUp}
-			/>
-		));
-
 	return (
 		<div className="Pathfinder">
 			<Navbar
@@ -270,7 +253,16 @@ export default function Pathfinder() {
 				generateMaze={generateMaze}
 			/>
 			<main className="Pathfinder-body">
-				<div className="Pathfinder-grid">{nodes}</div>
+				{gridState.graph && (
+					<Grid
+						graph={gridState.graph}
+						{...searchState}
+						{...nodeState}
+						clickDown={clickDown}
+						clickUp={clickUp}
+						toggleNodeFunction={toggleNodeFunction}
+					/>
+				)}
 				{searchState.searchTime && (
 					<PathfinderStats
 						numVisitedNodes={

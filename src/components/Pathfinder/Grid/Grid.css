@@ -1,0 +1,9 @@
+.Grid {
+	margin-top: 3rem;
+	width: 98%;
+	height: 90%;
+	background-color: white;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
