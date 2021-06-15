@@ -17,6 +17,14 @@ export class WeightedGraph {
 		this.adjacencyList[v1].push({ node: v2, weight });
 		this.adjacencyList[v2].push({ node: v1, weight });
 	}
+	getShortestPath(previousList, currVal) {
+		const shortestPath = [];
+		while (previousList[currVal]) {
+			shortestPath.push(currVal);
+			currVal = previousList[currVal];
+		}
+		return shortestPath;
+	}
 	dijkstra(vStart, vEnd, wallNodes = []) {
 		const distances = {},
 			previous = {};
@@ -34,10 +42,7 @@ export class WeightedGraph {
 		while (q.values.length > 0) {
 			let { val, priority } = q.dequeue();
 			if (val === vEnd) {
-				while (previous[val]) {
-					shortestPath.push(val);
-					val = previous[val];
-				}
+				shortestPath = this.getShortestPath(previous, val);
 				break;
 			}
 			if (distances[val] !== Infinity) {
@@ -81,10 +86,7 @@ export class WeightedGraph {
 		while (q.values.length > 0) {
 			let { val } = q.dequeue();
 			if (val === vEnd) {
-				while (previous[val]) {
-					shortestPath.push(val);
-					val = previous[val];
-				}
+				shortestPath = this.getShortestPath(previous, val);
 				break;
 			}
 			if (distances[val] !== Infinity) {
@@ -127,26 +129,21 @@ export class WeightedGraph {
 			let { val } = q.dequeue();
 			visitedNodes.push(val);
 			if (val === vEnd) {
-				console.log("ending");
-				while (previous[val]) {
-					shortestPath.push(val);
-					val = previous[val];
-				}
+				shortestPath = this.getShortestPath(previous, val);
 				break;
-			} else {
-				priority++;
-				// eslint-disable-next-line no-loop-func
-				this.adjacencyList[val].forEach((edge) => {
-					if (
-						edge.node !== vStart &&
-						!previous[edge.node] &&
-						!wallNodes.includes(edge.node)
-					) {
-						previous[edge.node] = val;
-						q.enqueue(edge.node, priority);
-					}
-				});
 			}
+			priority++;
+			// eslint-disable-next-line no-loop-func
+			this.adjacencyList[val].forEach((edge) => {
+				if (
+					edge.node !== vStart &&
+					!previous[edge.node] &&
+					!wallNodes.includes(edge.node)
+				) {
+					previous[edge.node] = val;
+					q.enqueue(edge.node, priority);
+				}
+			});
 		}
 		if (shortestPath.length > 0) {
 			shortestPath = shortestPath.concat(vStart).reverse();
@@ -154,7 +151,7 @@ export class WeightedGraph {
 		return { visitedNodes, shortestPath };
 	}
 	// COMMENT: Left recursive depth-first search for referce
-	// DO NOT USE FOR GRIDS WITH 2700+ VERTICES OR IT THE ALGO WITH EXCEED CHROME'S MAXIMUM CALL STACK (works fine on firefox)
+	// DO NOT USE FOR GRIDS WITH 2700+ VERTICES OR IT THE ALGO WITH EXCEED CHROME'S MAXIMUM CALL STACK
 	// DFSR(vStart, vEnd, wallNodes = []) {
 	// 	let visitedNodes = [];
 	// 	const recurrSearch = (currNode) => {
@@ -177,32 +174,28 @@ export class WeightedGraph {
 	// 	return { visitedNodes, shortestPath: path.reverse() };
 	// }
 	DFS(vStart, vEnd, wallNodes = []) {
-		let visitedNodes = [];
-		let shortestPath = [];
 		const stack = new Stack();
-		stack.push(vStart);
+		let visitedNodes = [];
 		const previous = {};
-		for (let vertex in this.adjacencyList) {
-			previous[vertex] = null;
-		}
+		let shortestPath = [];
+		stack.push(vStart);
 		while (stack.size && !visitedNodes.includes(vEnd)) {
-			let currNode = stack.pop().val;
-			visitedNodes.push(currNode);
-			this.adjacencyList[currNode].forEach((edge) => {
+			let { val } = stack.pop();
+			if (val === vEnd) {
+				shortestPath = this.getShortestPath(previous, val);
+				break;
+			}
+			visitedNodes.push(val);
+			this.adjacencyList[val].forEach((edge) => {
 				if (
 					!visitedNodes.includes(edge.node) &&
 					!visitedNodes.includes(vEnd) &&
 					!wallNodes.includes(edge.node)
 				) {
-					previous[edge.node] = currNode;
+					previous[edge.node] = val;
 					stack.push(edge.node);
 				}
 			});
-		}
-		let finishNode = vEnd;
-		while (previous[finishNode]) {
-			shortestPath.push(finishNode);
-			finishNode = previous[finishNode];
 		}
 		if (shortestPath.length > 0) {
 			shortestPath = shortestPath.concat(vStart).reverse();
@@ -218,9 +211,6 @@ export class WeightedGraph {
 		let q = new PriorityQueue();
 		let shortestPath = [];
 		let visitedNodes = [];
-		for (let vertex in this.adjacencyList) {
-			previous[vertex] = null;
-		}
 		q.enqueue(vStart, 1);
 		while (q.values.length > 0) {
 			let { val } = q.dequeue();
