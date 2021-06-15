@@ -39,10 +39,10 @@ export default function Pathfinder() {
 		const graph = getNewGraph(NUM_ROWS, NUM_COLS);
 		setGridState({ ...gridState, graph });
 	}, []);
-
 	const visualize = () => {
 		// Don't initialize search if already pushing nodes or walls to state.
 		if (gridState.searching) return;
+		resetSearch();
 		const t0 = performance.now();
 		setGridState({ ...gridState, searching: true });
 		let { visitedNodes, shortestPath } = getSearchAlgo(
@@ -50,35 +50,27 @@ export default function Pathfinder() {
 			nodeState,
 			NUM_COLS
 		);
-		//calc how long the algorithm took to execute
 		const timeToExecute = performance.now() - t0;
-		resetSearch();
 		let visitedObj = {};
 		let shortestPathArr = [];
-		// Iterate through all found nodes and the shortest path (if found) and animate them individually
+		// Iterate through all found nodes and the shortest path nodes (if found) and animate them individually
 		for (let i = 0; i < visitedNodes.length + shortestPath.length; i++) {
-			if (i < visitedNodes.length) {
-				setTimeout(() => {
+			setTimeout(() => {
+				if (i < visitedNodes.length) {
 					visitedObj[visitedNodes[i]] = true;
-					setSearchState({
-						...searchState,
-						visitedNodes: visitedObj,
-						shortestPath: shortestPathArr,
-					});
-				}, i * gridState.searchSpeed);
-			} else {
-				setTimeout(() => {
+				} else {
 					shortestPathArr.push(shortestPath[i - visitedNodes.length]);
-					setSearchState({
-						...searchState,
-						shortestPath: shortestPathArr,
-						visitedNodes: visitedObj,
-					});
-				}, i * gridState.searchSpeed);
-			}
+				}
+				setSearchState({
+					...searchState,
+					visitedNodes: visitedObj,
+					shortestPath: shortestPathArr,
+				});
+			}, i * gridState.searchSpeed);
 		}
 		// If shorest path found, push search stats to state once the animations are done
 		setTimeout(() => {
+			setGridState({ ...gridState, searching: false });
 			if (shortestPath.length > 0) {
 				setSearchState({
 					shortestPath: shortestPathArr,
@@ -86,7 +78,6 @@ export default function Pathfinder() {
 					searchTime: timeToExecute,
 				});
 			}
-			setGridState({ ...gridState, searching: false });
 		}, (visitedNodes.length + shortestPath.length) * gridState.searchSpeed);
 	};
 	// Function checks where the user clicked and either starts drawing a wall or moving start/end node
