@@ -253,15 +253,7 @@ export default function Pathfinder() {
 						toggleNodeFunction={toggleNodeFunction}
 					/>
 				)}
-				{searchState.searchTime && (
-					<PathfinderStats
-						numVisitedNodes={
-							Object.values(searchState.visitedNodes).length
-						}
-						shortestPathLength={searchState.shortestPath.length}
-						searchTime={searchState.searchTime.toFixed(2)}
-					/>
-				)}
+				{searchState.searchTime && <PathfinderStats {...searchState} />}
 			</main>
 		</div>
 	);
