@@ -5,23 +5,23 @@ import Node from "../Node/Node";
 import PathfinderStats from "./PathfinderStats/PathfinderStats";
 import "./Pathfinder.css";
 
-import { WeightedGraph } from "../../graph/graph";
-
 import getSearchAlgo from "../../helpers/getSearchAlgo";
 import getNextMazeNode from "../../helpers/getNextMazeNode";
+import getNewGraph from "../../helpers/getNewGraph";
 
 const NUM_ROWS = 41;
 const NUM_COLS = 101;
 
+const defaultNodeState = {
+	startNode: "512",
+	endNode: "3420",
+	wallNodes: [],
+	movingStartNode: false,
+	movingEndNode: false,
+	mousePressed: false,
+};
+
 export default function Pathfinder() {
-	const defaultNodeState = {
-		startNode: "512",
-		endNode: "3420",
-		wallNodes: [],
-		movingStartNode: false,
-		movingEndNode: false,
-		mousePressed: false,
-	};
 	const [searchState, setSearchState] = useState({
 		visitedNodes: {},
 		shortestPath: [],
@@ -36,22 +36,10 @@ export default function Pathfinder() {
 	const [nodeState, setNodeState] = useState(defaultNodeState);
 	// Set initial grid and graph data
 	useEffect(() => {
-		const newGraph = new WeightedGraph();
-		for (let i = 0; i < NUM_ROWS * NUM_COLS; i++) {
-			// Graph only accepts strings as vertex name. Using the index of each graph as its name.
-			newGraph.addVertex(String(i));
-			// Create edges between adjacent vertices
-			if (i % NUM_COLS > 0) {
-				// This version of the app does not use weighed edges, so the weight is always 1.
-				// Turning the graph into a weighted graph requires adding a third argument with the weight to the addEdge method
-				newGraph.addEdge(String(i), String(i - 1));
-			}
-			if (i >= NUM_COLS) {
-				newGraph.addEdge(String(i), String(i - NUM_COLS));
-			}
-		}
-		setGridState({ ...gridState, graph: newGraph });
+		const graph = getNewGraph(NUM_ROWS, NUM_COLS);
+		setGridState({ ...gridState, graph });
 	}, []);
+
 	const visualize = () => {
 		// Don't initialize search if already pushing nodes or walls to state.
 		if (gridState.searching) return;
