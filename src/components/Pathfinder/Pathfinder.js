@@ -42,10 +42,12 @@ export default function Pathfinder() {
 			newGraph.addVertex(String(i));
 			// Create edges between adjacent vertices
 			if (i % NUM_COLS > 0) {
-				newGraph.addEdge(String(i), String(i - 1), 1);
+				// This version of the app does not use weighed edges, so the weight is always 1.
+				// Turning the graph into a weighted graph requires adding a third argument with the weight to the addEdge method
+				newGraph.addEdge(String(i), String(i - 1));
 			}
 			if (i >= NUM_COLS) {
-				newGraph.addEdge(String(i), String(i - NUM_COLS), 1);
+				newGraph.addEdge(String(i), String(i - NUM_COLS));
 			}
 		}
 		setGridState({ ...gridState, graph: newGraph });

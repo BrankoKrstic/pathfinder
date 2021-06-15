@@ -8,9 +8,10 @@ export class WeightedGraph {
 	}
 	addVertex(v) {
 		if (this.adjacencyList[v]) return console.log("vertex already exists");
+		// Each vertex in the graph is an empty array. The array will contain data on the vertices they are connected to and the weight of the edge
 		this.adjacencyList[v] = [];
 	}
-	addEdge(v1, v2, weight) {
+	addEdge(v1, v2, weight = 1) {
 		if (!this.adjacencyList[v1] || !this.adjacencyList[v2])
 			return console.log("no such vertex");
 		this.adjacencyList[v1].push({ node: v2, weight });
