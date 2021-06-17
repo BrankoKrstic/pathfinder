@@ -88,7 +88,8 @@ export default function Pathfinder() {
 	const clickDown = (val) => {
 		// Don't allow changing the grid before resetting search data
 		if (Object.values(searchState.visitedNodes).length > 0) return;
-		let movingStartNode, movingEndNode;
+		let movingStartNode = false,
+			movingEndNode = false;
 		let wallNodes = [...nodeState.wallNodes];
 		if (val === nodeState.startNode) {
 			movingStartNode = true;
