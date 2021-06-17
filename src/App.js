@@ -1,9 +1,9 @@
-import Pathfinder from "./components/Pathfinder/Pathfinder";
+import PathfinderApp from "./components/PathfinderApp/PathfinderApp";
 
 function App() {
 	return (
 		<div className="App">
-			<Pathfinder />
+			<PathfinderApp />
 		</div>
 	);
 }
