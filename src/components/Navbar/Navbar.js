@@ -1,4 +1,5 @@
 import NavButton from "../NavComponents/NavButton/NavButton";
+import NavDropdown from "../NavComponents/NavDropdown/NavDropdown";
 import "./Navbar.css";
 
 export default function Navbar(props) {
@@ -17,36 +18,30 @@ export default function Navbar(props) {
 		<nav className="Navbar">
 			<div className="Navbar-left">
 				<div className="Navbar-logo">Pathfinder</div>
-				<label className="Navbar-label" htmlFor="algo-select">
-					Algorithm:
-				</label>
-				<span className="Navbar-dropdown">
-					<select
-						id="algo-select"
-						value={searchAlgo}
-						onChange={(e) => changeAlgo(e.target.value)}
-					>
-						<option value="dijkstra">Dijkstra's</option>
-						<option value="aStar">A* Search</option>
-						<option value="BFS">BFS</option>
-						<option value="DFS">DFS</option>
-						<option value="GBS">Greedy Best-first Search</option>
-					</select>
-				</span>
-				<label className="Navbar-label" htmlFor="speed-select">
-					Speed:
-				</label>
-				<span className="Navbar-dropdown">
-					<select
-						id="speed-select"
-						value={searchSpeed}
-						onChange={(e) => changeSpeed(e.target.value)}
-					>
-						<option value="10">Fast</option>
-						<option value="20">Medium</option>
-						<option value="40">Slow</option>
-					</select>
-				</span>
+				<NavDropdown
+					id="algo-select"
+					label="Algorithm"
+					value={searchAlgo}
+					handleChange={(e) => changeAlgo(e.target.value)}
+					options={{
+						dijkstra: "Dijkstra's",
+						aStar: "A* search",
+						BFS: "BFS",
+						DFS: "DFS",
+						GBS: "Greedy Best-first Search",
+					}}
+				/>
+				<NavDropdown
+					id="speed-select"
+					label="Speed"
+					value={searchSpeed}
+					handleChange={(e) => changeSpeed(e.target.value)}
+					options={{
+						10: "Fast",
+						20: "Medium",
+						40: "Slow",
+					}}
+				/>
 			</div>
 			<button className="Start-button" onClick={visualize}>
 				Run!
