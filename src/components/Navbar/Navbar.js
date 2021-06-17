@@ -14,6 +14,7 @@ export default function Navbar(props) {
 		changeAlgo,
 		searchAlgo,
 		generateMaze,
+		toggleHelp,
 	} = props;
 	const algoOptions = {
 		dijkstra: "Dijkstra's",
@@ -52,7 +53,7 @@ export default function Navbar(props) {
 				<NavButton text="Reset Search" clicked={resetSearch} />
 				<NavButton text="Remove Walls" clicked={removeWalls} />
 				<NavButton text="Reset Board" clicked={reset} />
-				<NavButton text="Help" clicked={generateMaze} />
+				<NavButton text="Help" clicked={toggleHelp} />
 			</div>
 		</nav>
 	);

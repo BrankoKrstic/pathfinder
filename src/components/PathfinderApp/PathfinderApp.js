@@ -11,7 +11,7 @@ export default function PathfinderApp() {
 	return (
 		<>
 			{helpState.display && <HelpWindow toggleHelp={toggleHelp} />}
-			<Pathfinder />
+			<Pathfinder toggleHelp={toggleHelp} />
 		</>
 	);
 }

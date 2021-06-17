@@ -21,7 +21,7 @@ const START_NODE_STATE = {
 	mousePressed: false,
 };
 
-export default function Pathfinder() {
+export default function Pathfinder(props) {
 	const [searchState, setSearchState] = useState({
 		visitedNodes: {},
 		shortestPath: [],
@@ -241,6 +241,7 @@ export default function Pathfinder() {
 				changeSpeed={changeSpeed}
 				changeAlgo={changeAlgo}
 				generateMaze={generateMaze}
+				toggleHelp={props.toggleHelp}
 			/>
 			<main className="Pathfinder-body">
 				{gridState.graph && (
