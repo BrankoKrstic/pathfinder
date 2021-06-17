@@ -1,3 +1,4 @@
+import NavButton from "../NavComponents/NavButton/NavButton";
 import "./Navbar.css";
 
 export default function Navbar(props) {
@@ -50,19 +51,12 @@ export default function Navbar(props) {
 			<button className="Start-button" onClick={visualize}>
 				Run!
 			</button>
-			<div className="Navbarbutton-container">
-				<button className="Navbar-button" onClick={generateMaze}>
-					Generate Maze
-				</button>
-				<button className="Navbar-button" onClick={resetSearch}>
-					Reset Search
-				</button>
-				<button className="Navbar-button" onClick={removeWalls}>
-					Remove Walls
-				</button>
-				<button className="Navbar-button" onClick={reset}>
-					Reset Board
-				</button>
+			<div className="Navbar-button-container">
+				<NavButton text="Generate Maze" clicked={generateMaze} />
+				<NavButton text="Reset Search" clicked={resetSearch} />
+				<NavButton text="Remove Walls" clicked={removeWalls} />
+				<NavButton text="Reset Board" clicked={reset} />
+				<NavButton text="Help" clicked={generateMaze} />
 			</div>
 		</nav>
 	);

@@ -34,6 +34,7 @@
 	display: flex;
 	justify-content: space-between;
 	padding: 0;
+	margin: 0 1rem;
 }
 
 .Start-button {
@@ -56,23 +57,6 @@
 	border-color: #5cdb95;
 	transform: scale(1.02);
 	background-color: #5cdb9511;
-}
-
-.Navbar-button {
-	cursor: pointer;
-	background-color: transparent;
-	padding: 1rem;
-	outline: none;
-	border: none;
-	color: white;
-	height: 100%;
-	font-size: 1.2rem;
-	font-weight: bold;
-	transition: all ease-in 0.2s;
-}
-
-.Navbar-button:hover {
-	color: #5cdb95;
 }
 
 .Navbar-label {
