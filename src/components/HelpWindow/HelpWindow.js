@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import HelpWindowStart from "./HelpWindowStart/HelpWindowStart";
 import HelpWindowAlgos from "./HelpWindowAlgos/HelpWindowAlgos";
@@ -9,27 +9,22 @@ import "./HelpWindow.css";
 export default function HelpWindow(props) {
 	const { toggleHelp } = props;
 	return (
-		<Router>
-			<Modal clicked={toggleHelp}>
-				<div
-					className="HelpWindow"
-					onClick={(e) => e.stopPropagation()}
-				>
-					<div className="HelpWindowInner">
-						<Switch>
-							<Route exact path="/">
-								<HelpWindowStart toggleHelp={toggleHelp} />
-							</Route>
-							<Route exact path="/legend">
-								<HelpWindowLegend />
-							</Route>
-							<Route exact path="/algos">
-								<HelpWindowAlgos />
-							</Route>
-						</Switch>
-					</div>
+		<Modal clicked={toggleHelp}>
+			<div className="HelpWindow" onClick={(e) => e.stopPropagation()}>
+				<div className="HelpWindowInner">
+					<Switch>
+						<Route exact path="/">
+							<HelpWindowStart toggleHelp={toggleHelp} />
+						</Route>
+						<Route exact path="/legend">
+							<HelpWindowLegend />
+						</Route>
+						<Route exact path="/algos">
+							<HelpWindowAlgos />
+						</Route>
+					</Switch>
 				</div>
-			</Modal>
-		</Router>
+			</div>
+		</Modal>
 	);
 }

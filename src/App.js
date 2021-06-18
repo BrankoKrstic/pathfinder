@@ -1,10 +1,13 @@
 import PathfinderApp from "./components/PathfinderApp/PathfinderApp";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
 	return (
-		<div className="App">
-			<PathfinderApp />
-		</div>
+		<Router>
+			<div className="App">
+				<PathfinderApp />
+			</div>
+		</Router>
 	);
 }
 
