@@ -8,34 +8,6 @@
 	border-radius: 1rem;
 }
 
-.HelpWindowStart {
+.HelpWindowInner {
 	padding: 1rem 2rem;
-}
-
-.HelpButtons {
-	height: 4rem;
-	display: flex;
-	justify-content: flex-end;
-}
-
-.HelpCloseButton {
-	height: 80%;
-	background-color: #18967d;
-	outline: none;
-	font-weight: bold;
-	justify-self: center;
-	align-self: center;
-	border: none;
-	border-radius: 5%;
-	font-size: 1.5rem;
-	color: #fff;
-	padding: 0 2rem;
-	cursor: pointer;
-	letter-spacing: 1px;
-	transition: all ease-in 0.2s;
-}
-
-.HelpCloseButton:hover {
-	background-color: #34b66e;
-	transform: scale(1.02);
 }
