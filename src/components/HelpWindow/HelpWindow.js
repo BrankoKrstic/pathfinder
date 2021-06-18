@@ -25,6 +25,14 @@ export default function HelpWindow(props) {
 							options.
 						</p>
 						<p>Most importantly, have fun!</p>
+						<div className="HelpButtons">
+							<button
+								className="HelpCloseButton"
+								onClick={toggleHelp}
+							>
+								Ready!
+							</button>
+						</div>
 					</div>
 				</div>
 			</Modal>
