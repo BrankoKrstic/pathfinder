@@ -18,7 +18,7 @@ export default function Navbar(props) {
 	} = props;
 	const algoOptions = {
 		dijkstra: "Dijkstra's",
-		aStar: "A* search",
+		aStar: "A* Search",
 		BFS: "BFS",
 		DFS: "DFS",
 		GBS: "Greedy Best-first Search",
