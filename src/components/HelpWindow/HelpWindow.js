@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HelpWindowStart from "./HelpWindowStart/HelpWindowStart";
 import HelpWindowAlgos from "./HelpWindowAlgos/HelpWindowAlgos";
+import HelpWindowLegend from "./HelpWindowLegend/HelpWindowLegend";
 import Modal from "../UI/Modal/Modal";
 import "./HelpWindow.css";
 
@@ -20,7 +21,7 @@ export default function HelpWindow(props) {
 								<HelpWindowStart toggleHelp={toggleHelp} />
 							</Route>
 							<Route exact path="/legend">
-								<HelpWindowStart />
+								<HelpWindowLegend />
 							</Route>
 							<Route exact path="/algos">
 								<HelpWindowAlgos />

@@ -1,0 +1,18 @@
+.HelpWindowLegend {
+	margin: 1rem;
+}
+
+.HelpWindowLegend a {
+	font-weight: bold;
+	display: block;
+	text-decoration: none;
+	color: #000;
+	cursor: pointer;
+	padding: 1rem 0rem 0rem 1rem;
+	font-size: 1.2rem;
+	transition: all ease-in 0.3s;
+}
+
+.HelpWindowLegend a:hover {
+	color: #1364a5;
+}
