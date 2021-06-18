@@ -47,7 +47,7 @@ export default function Navbar(props) {
 					options={speedOptions}
 				/>
 			</div>
-			<StartButton text="Run!" clicked={visualize} />
+			<StartButton text="Run!" isDark clicked={visualize} />
 			<div className="Navbar-button-container">
 				<NavButton text="Generate Maze" clicked={generateMaze} />
 				<NavButton text="Reset Search" clicked={resetSearch} />

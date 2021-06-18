@@ -1,5 +1,6 @@
 import "./HelpWindow.css";
 import Modal from "../UI/Modal/Modal";
+import StartButton from "../NavComponents/StartButton/StartButton";
 
 export default function HelpWindow(props) {
 	const { toggleHelp } = props;
@@ -26,12 +27,11 @@ export default function HelpWindow(props) {
 						</p>
 						<p>Most importantly, have fun!</p>
 						<div className="HelpButtons">
-							<button
-								className="HelpCloseButton"
-								onClick={toggleHelp}
-							>
-								Ready!
-							</button>
+							<StartButton
+								isDark={false}
+								clicked={toggleHelp}
+								text="Ready!"
+							/>
 						</div>
 					</div>
 				</div>
