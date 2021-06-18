@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import StartButton from "../../NavComponents/StartButton/StartButton";
 import "./HelpWindowStart.css";
 
@@ -19,6 +20,10 @@ export default function HelpWindowStart(props) {
 			</p>
 			<p>Most importantly, have fun!</p>
 			<div className="HelpButtons">
+				<div className="HelpButtons-left">
+					<Link to="/legend">Legend</Link>
+					<Link to="/algos">Algorithms</Link>
+				</div>
 				<StartButton
 					isDark={false}
 					clicked={props.toggleHelp}

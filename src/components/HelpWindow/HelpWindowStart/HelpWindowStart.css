@@ -1,5 +1,26 @@
 .HelpButtons {
 	height: 4rem;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
+	margin: 0rem 2rem 1rem 1rem;
+}
+
+.HelpButtons-left {
+	height: 100%;
+}
+
+.HelpButtons-left a {
+	font-weight: bold;
+	line-height: 4rem;
+	text-decoration: none;
+	color: #000;
+	cursor: pointer;
+	padding: 1rem;
+	height: 100%;
+	font-size: 1.2rem;
+	transition: all ease-in 0.2s;
+}
+
+.HelpButtons-left a:hover {
+	color: #5cdb95;
 }

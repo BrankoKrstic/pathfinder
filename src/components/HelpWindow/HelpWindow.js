@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HelpWindowStart from "./HelpWindowStart/HelpWindowStart";
 import HelpWindowAlgos from "./HelpWindowAlgos/HelpWindowAlgos";
@@ -10,7 +10,10 @@ export default function HelpWindow(props) {
 	return (
 		<Router>
 			<Modal clicked={toggleHelp}>
-				<div className="HelpWindow">
+				<div
+					className="HelpWindow"
+					onClick={(e) => e.stopPropagation()}
+				>
 					<div className="HelpWindowInner">
 						<Switch>
 							<Route exact path="/">
