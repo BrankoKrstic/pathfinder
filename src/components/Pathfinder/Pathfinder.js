@@ -237,7 +237,18 @@ export default function Pathfinder(props) {
 	};
 	return (
 		<div className="Pathfinder">
-			<Sidebar toggleSidebar={toggleSidebar} isOpen={sidebarState.open} />
+			<Sidebar
+				isOpen={sidebarState.open}
+				{...gridState}
+				removeWalls={removeWalls}
+				reset={reset}
+				resetSearch={resetSearch}
+				changeSpeed={changeSpeed}
+				changeAlgo={changeAlgo}
+				generateMaze={generateMaze}
+				toggleHelp={props.toggleHelp}
+				toggleSidebar={toggleSidebar}
+			/>
 			<Navbar
 				{...gridState}
 				visualize={visualize}
