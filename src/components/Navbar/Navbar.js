@@ -1,6 +1,7 @@
-import NavButton from "../NavComponents/NavButton/NavButton";
+import DropdownMenu from "../DropdownMenu/DropdownMenu";
+import ControlButtons from "../ControlButtons/ControlButtons";
 import StartButton from "../NavComponents/StartButton/StartButton";
-import NavDropdown from "../NavComponents/NavDropdown/NavDropdown";
+import NavButton from "../NavComponents/NavButton/NavButton";
 import "./Navbar.css";
 
 export default function Navbar(props) {
@@ -16,44 +17,29 @@ export default function Navbar(props) {
 		generateMaze,
 		toggleHelp,
 	} = props;
-	const algoOptions = {
-		dijkstra: "Dijkstra's",
-		aStar: "A* Search",
-		BFS: "BFS",
-		DFS: "DFS",
-		GBS: "Greedy Best-first Search",
-	};
-	const speedOptions = {
-		10: "Fast",
-		20: "Medium",
-		40: "Slow",
-	};
+
 	return (
 		<nav className="Navbar">
 			<div className="Navbar-left">
 				<div className="Navbar-logo">Pathfinder</div>
-				<NavDropdown
-					id="algo-select"
-					label="Algorithm"
-					value={searchAlgo}
-					handleChange={(e) => changeAlgo(e.target.value)}
-					options={algoOptions}
-				/>
-				<NavDropdown
-					id="speed-select"
-					label="Speed"
-					value={searchSpeed}
-					handleChange={(e) => changeSpeed(e.target.value)}
-					options={speedOptions}
-				/>
+				<div className="Navbar-dropdowns">
+					<DropdownMenu
+						searchSpeed={searchSpeed}
+						changeSpeed={changeSpeed}
+						changeAlgo={changeAlgo}
+						searchAlgo={searchAlgo}
+					/>
+				</div>
 			</div>
 			<StartButton text="Run!" isDark clicked={visualize} />
 			<div className="Navbar-button-container">
-				<NavButton text="Generate Maze" clicked={generateMaze} />
-				<NavButton text="Reset Search" clicked={resetSearch} />
-				<NavButton text="Remove Walls" clicked={removeWalls} />
-				<NavButton text="Reset Board" clicked={reset} />
-				<NavButton text="Help" clicked={toggleHelp} />
+				<ControlButtons
+					reset={reset}
+					resetSearch={resetSearch}
+					removeWalls={removeWalls}
+					generateMaze={generateMaze}
+					toggleHelp={toggleHelp}
+				/>
 			</div>
 			<div className="Navbar-button-container-mobile">
 				<NavButton text="Menu" />

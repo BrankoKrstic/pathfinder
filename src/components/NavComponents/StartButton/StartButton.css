@@ -1,14 +1,12 @@
 .StartButton {
 	height: 80%;
 	outline: none;
-	justify-self: center;
 	align-self: center;
 	border-radius: 5%;
 	font-size: 1.5rem;
 	color: #fff;
 	cursor: pointer;
 	transition: all ease-in 0.2s;
-	margin: 0 1rem;
 }
 
 .StartButton:hover {

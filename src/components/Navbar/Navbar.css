@@ -12,9 +12,6 @@
 	height: 100%;
 	width: auto;
 	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	justify-self: flex-start;
 }
 
 .Navbar-logo {
@@ -31,10 +28,6 @@
 	height: 100%;
 	display: inline-block;
 	align-self: flex-end;
-	display: flex;
-	justify-content: space-between;
-	padding: 0;
-	margin: 0 1rem;
 }
 
 .Navbar-button-container-mobile {
@@ -42,13 +35,13 @@
 	display: inline-block;
 	align-self: flex-end;
 	padding: 0;
-	margin: 0 1rem;
+	margin: 0 2rem;
 	display: none;
 }
 
 @media (max-width: 1400px) {
 	.Navbar-button-container,
-	.Navbar-left {
+	.Navbar-dropdowns {
 		display: none;
 	}
 	.Navbar-button-container-mobile {
