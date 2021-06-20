@@ -1,3 +1,7 @@
+.HelpWindowStart-body {
+	height: 80%;
+}
+
 .HelpButtons {
 	height: 4rem;
 	display: flex;

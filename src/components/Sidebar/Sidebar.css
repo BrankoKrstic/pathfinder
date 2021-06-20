@@ -25,12 +25,14 @@
 
 @keyframes slide-in {
 	100% {
+		display: flex;
 		transform: translateX(0%);
 	}
 }
 
 @-webkit-keyframes slide-in {
 	100% {
+		display: flex;
 		-webkit-transform: translateX(0%);
 	}
 }
@@ -39,17 +41,25 @@
 	0% {
 		transform: translateX(0%);
 	}
+	99% {
+		transform: translateX(100%);
+	}
 	100% {
 		transform: translateX(100%);
+		display: none;
 	}
 }
 
 @-webkit-keyframes slide-out {
 	0% {
-		-webkit-transform: translateX(0%);
+		transform: translateX(0%);
+	}
+	99% {
+		transform: translateX(100%);
 	}
 	100% {
-		-webkit-transform: translateX(100%);
+		transform: translateX(100%);
+		display: none;
 	}
 }
 

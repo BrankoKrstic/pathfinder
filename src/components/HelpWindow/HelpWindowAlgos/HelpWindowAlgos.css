@@ -1,5 +1,6 @@
 .HelpWindowAlgos {
 	margin: 1rem;
+	overflow: scroll;
 }
 
 .HelpWindowAlgos a {
