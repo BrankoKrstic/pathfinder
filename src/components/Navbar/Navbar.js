@@ -55,6 +55,9 @@ export default function Navbar(props) {
 				<NavButton text="Reset Board" clicked={reset} />
 				<NavButton text="Help" clicked={toggleHelp} />
 			</div>
+			<div className="Navbar-button-container-mobile">
+				<NavButton text="Menu" />
+			</div>
 		</nav>
 	);
 }
