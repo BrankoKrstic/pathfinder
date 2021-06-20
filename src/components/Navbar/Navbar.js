@@ -16,6 +16,7 @@ export default function Navbar(props) {
 		searchAlgo,
 		generateMaze,
 		toggleHelp,
+		toggleSidebar,
 	} = props;
 
 	return (
@@ -42,7 +43,7 @@ export default function Navbar(props) {
 				/>
 			</div>
 			<div className="Navbar-button-container-mobile">
-				<NavButton text="Menu" />
+				<NavButton text="Menu" clicked={toggleSidebar} />
 			</div>
 		</nav>
 	);

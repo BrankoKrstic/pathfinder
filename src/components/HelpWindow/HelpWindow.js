@@ -7,9 +7,9 @@ import Modal from "../UI/Modal/Modal";
 import "./HelpWindow.css";
 
 export default function HelpWindow(props) {
-	const { toggleHelp } = props;
+	const { toggleHelp, helpOpen } = props;
 	return (
-		<Modal clicked={toggleHelp}>
+		<Modal modalOpen={helpOpen} clicked={toggleHelp}>
 			<div className="HelpWindow" onClick={(e) => e.stopPropagation()}>
 				<div className="HelpWindowInner">
 					<Switch>

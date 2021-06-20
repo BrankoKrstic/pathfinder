@@ -1,5 +1,6 @@
 .StartButton {
 	height: 80%;
+	min-height: 3rem;
 	outline: none;
 	align-self: center;
 	border-radius: 5%;

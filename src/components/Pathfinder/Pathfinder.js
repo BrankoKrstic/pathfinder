@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import Navbar from "../Navbar/Navbar";
+import Sidebar from "../Sidebar/Sidebar";
 import Grid from "./Grid/Grid";
 import PathfinderStats from "./PathfinderStats/PathfinderStats";
 import "./Pathfinder.css";
@@ -34,6 +35,10 @@ export default function Pathfinder(props) {
 		searching: false,
 	});
 	const [nodeState, setNodeState] = useState(START_NODE_STATE);
+	const [sidebarState, setSidebarState] = useState({ open: false });
+	const toggleSidebar = () => {
+		setSidebarState({ open: !sidebarState.open });
+	};
 	// Set initial grid and graph data
 	useEffect(() => {
 		const graph = getNewGraph(NUM_ROWS, NUM_COLS);
@@ -232,6 +237,7 @@ export default function Pathfinder(props) {
 	};
 	return (
 		<div className="Pathfinder">
+			<Sidebar toggleSidebar={toggleSidebar} isOpen={sidebarState.open} />
 			<Navbar
 				{...gridState}
 				visualize={visualize}
@@ -242,6 +248,7 @@ export default function Pathfinder(props) {
 				changeAlgo={changeAlgo}
 				generateMaze={generateMaze}
 				toggleHelp={props.toggleHelp}
+				toggleSidebar={toggleSidebar}
 			/>
 			<main className="Pathfinder-body">
 				{gridState.graph && (
