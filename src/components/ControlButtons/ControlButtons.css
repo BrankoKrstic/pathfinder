@@ -5,3 +5,11 @@
 	padding: 0;
 	margin: 0 1rem;
 }
+
+@media (max-width: 1400px) {
+	.ControlButtons {
+		height: 50%;
+		flex-direction: column;
+		justify-content: flex-start;
+	}
+}
