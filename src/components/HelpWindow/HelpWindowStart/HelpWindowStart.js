@@ -7,7 +7,7 @@ export default function HelpWindowStart(props) {
 		<>
 			<h1>Welcome to Pathfinder!</h1>
 			<p>
-				Pathfinder is a software that visualizes the search patterns of
+				Pathfinder is a software that visualizes search patterns of
 				common algorithms for finding a path in a graph.
 			</p>
 			<p>
