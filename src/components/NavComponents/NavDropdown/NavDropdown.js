@@ -5,7 +5,11 @@ export default function NavDropdown(props) {
 	const getOptions = () => {
 		const optionVals = [];
 		for (let key in options) {
-			optionVals.push(<option value={key}>{options[key]}</option>);
+			optionVals.push(
+				<option key={key} value={key}>
+					{options[key]}
+				</option>
+			);
 		}
 		return optionVals;
 	};
