@@ -11,6 +11,12 @@
 	flex-grow: 1;
 }
 
+.Node-help {
+	height: 1.5rem;
+	width: 1.5rem;
+	border: none;
+}
+
 .Node-start,
 .Node-end {
 	background-repeat: no-repeat;

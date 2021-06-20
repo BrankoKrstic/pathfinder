@@ -17,6 +17,11 @@
 	color: #1364a5;
 }
 
+.HelpWindowLegend-node {
+	display: flex;
+	justify-content: flex-start;
+}
+
 @media (max-width: 720px) {
 	.HelpWindowLegend {
 		max-height: 80vh;

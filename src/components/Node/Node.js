@@ -14,9 +14,13 @@ function Node(props) {
 		location,
 		clickDown,
 		clickUp,
+		helpNode,
 	} = props;
 	const getClass = () => {
 		let nodeClass = "Node";
+		if (helpNode) {
+			nodeClass = nodeClass + " Node-help";
+		}
 		if (start) {
 			nodeClass = nodeClass + " Node-start";
 		} else if (end) {
