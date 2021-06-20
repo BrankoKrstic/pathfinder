@@ -1,6 +1,5 @@
 .HelpWindowAlgos {
 	margin: 1rem;
-	overflow: scroll;
 }
 
 .HelpWindowAlgos a {
@@ -16,4 +15,11 @@
 
 .HelpWindowAlgos a:hover {
 	color: #1364a5;
+}
+
+@media (max-width: 720px) {
+	.HelpWindowAlgos {
+		max-height: 80vh;
+		overflow: scroll;
+	}
 }

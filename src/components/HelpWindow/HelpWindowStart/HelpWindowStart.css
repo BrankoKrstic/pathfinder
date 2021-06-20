@@ -35,4 +35,8 @@
 		flex-direction: column;
 		align-items: center;
 	}
+	.HelpWindowStart-body {
+		max-height: 80vh;
+		overflow: scroll;
+	}
 }

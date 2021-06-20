@@ -16,3 +16,10 @@
 .HelpWindowLegend a:hover {
 	color: #1364a5;
 }
+
+@media (max-width: 720px) {
+	.HelpWindowLegend {
+		max-height: 80vh;
+		overflow: scroll;
+	}
+}

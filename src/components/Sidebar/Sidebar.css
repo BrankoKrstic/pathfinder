@@ -49,7 +49,6 @@
 		display: none;
 	}
 }
-
 @-webkit-keyframes slide-out {
 	0% {
 		transform: translateX(0%);
@@ -59,12 +58,6 @@
 	}
 	100% {
 		transform: translateX(100%);
-		display: none;
-	}
-}
-
-@media (min-width: 1400px) {
-	.Sidebar {
 		display: none;
 	}
 }
@@ -106,4 +99,10 @@
 	transform: scale(1.1) rotate(45deg) skew(-5deg, -5deg);
 	border-color: #34b66e;
 	cursor: pointer;
+}
+
+@media (min-width: 1400px) {
+	.Sidebar {
+		display: none;
+	}
 }
