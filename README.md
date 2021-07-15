@@ -9,8 +9,11 @@ Behind the scenes, the app uses a custom graph data structure together with cust
 ## To install
 
 Clone the github repo to your machine.
+
 Execute `cd pathfinder` into the terminal to go into the repo folder
+
 Execute `npm install` to download all dependencies
+
 `npm start` to open the project on a development server
 
 ## Using the app
